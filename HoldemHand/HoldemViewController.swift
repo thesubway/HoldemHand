@@ -54,8 +54,10 @@ class HoldemViewController: UIViewController {
         var playersPossibleCards = [Card]()
         //reset the deck:
         holdemDeck = DeckOfCards()
-        //this should be reset at beginning of each hand.
+        //these should be reset at beginning of each hand.
         bestHandType = 0
+        //forgetting this did not actually cause problems.
+        best5CardCombo = [Card]()
         
         allCards.append(player11)
         allCards.append(player12)
@@ -70,7 +72,7 @@ class HoldemViewController: UIViewController {
         var player1 = Player()
         player11.currentCard = holdemDeck.drawCard()
         player12.currentCard = holdemDeck.drawCard()
-        self.handLabel.hidden = false
+        self.handLabel.hidden = true
     }
     
     func faceDown() -> UIImage {
@@ -85,12 +87,17 @@ class HoldemViewController: UIViewController {
     func dealTurn() {
         handStage = 2
         turn.currentCard = holdemDeck.drawCard()
+        
     }
     func dealRiver() {
         handStage = 3
         river.currentCard = holdemDeck.drawCard()
+        
     }
     func endRound() {
+        for eachImage in allCards {
+            eachImage.layer.borderColor = UIColor.greenColor().CGColor
+        }
         handStage = 0
         println("endRound")
         for eachCard in allCards {
@@ -166,10 +173,13 @@ class HoldemViewController: UIViewController {
             if handRanking > self.bestHandType {
                 self.bestHandType = 7
                 self.handLabel.text = "Four of a Kind"
-                
+                self.best5CardCombo = cardsToEvaluate
+                best5CardCombo = handSorter.sortQuads(best5CardCombo, quadValue: currentQuad)
             }
             else if handRanking == self.bestHandType {
                 //apply quads tiebreak.
+                cardsToEvaluate = handSorter.sortQuads(cardsToEvaluate, quadValue: currentQuad)
+                best5CardCombo = handComparer.compareTrips(best5CardCombo, hand2: cardsToEvaluate)
             }
         }
         else if (numTrips == 1) && (numPairs == 1) {
@@ -177,6 +187,12 @@ class HoldemViewController: UIViewController {
             if handRanking > self.bestHandType {
                 self.bestHandType = 6
                 self.handLabel.text = "Full House"
+                self.best5CardCombo = cardsToEvaluate
+                best5CardCombo = handSorter.sortBoat(best5CardCombo, tripValue: currentTrip)
+            }
+            else if handRanking == self.bestHandType {
+                cardsToEvaluate = handSorter.sortTrips(cardsToEvaluate, tripValue: currentTrip)
+                best5CardCombo = handComparer.compareTrips(best5CardCombo, hand2: cardsToEvaluate)
             }
         }
         else if numTrips == 1 {
@@ -185,6 +201,11 @@ class HoldemViewController: UIViewController {
                 self.bestHandType = 3
                 self.handLabel.text = "Three of a Kind"
                 self.best5CardCombo = cardsToEvaluate
+                best5CardCombo = handSorter.sortTrips(best5CardCombo,tripValue: currentTrip)
+            }
+            else if handRanking == self.bestHandType {
+                cardsToEvaluate = handSorter.sortTrips(cardsToEvaluate, tripValue: currentTrip)
+                best5CardCombo = handComparer.compareTrips(best5CardCombo, hand2: cardsToEvaluate)
             }
         }
         else if numPairs == 2 {
@@ -198,6 +219,13 @@ class HoldemViewController: UIViewController {
                 twoPairs.append(currentPairs[1].value)
                 best5CardCombo = handSorter.sortTwoPair(best5CardCombo, pairValues: twoPairs)
             }
+            else if handRanking == self.bestHandType {
+                var twoPairs = [Int]()
+                twoPairs.append(currentPairs[0].value)
+                twoPairs.append(currentPairs[1].value)
+                cardsToEvaluate = handSorter.sortTwoPair(cardsToEvaluate, pairValues: twoPairs)
+                best5CardCombo = handComparer.compareTwoPair(best5CardCombo, hand2: cardsToEvaluate)
+            }
         }
         else if numPairs == 1 {
             handRanking = 1
@@ -210,13 +238,12 @@ class HoldemViewController: UIViewController {
             else if handRanking == self.bestHandType {
                 cardsToEvaluate = handSorter.sortOnePair(cardsToEvaluate, pairValue: currentPairs[0].value)
                 best5CardCombo = handComparer.compareOnePair(best5CardCombo,hand2: cardsToEvaluate)
-                for eachCard in best5CardCombo {
-                    println("\(eachCard.valueName) of \(eachCard.suitName)")
-                }
             }
         }
         else {
             //might be nothing. or a straight and/or flush
+            //either way, time to do standard sorting:
+            cardsToEvaluate = handSorter.sortCardValue(cardsToEvaluate)
             //check for flush:
             var stillFlush = true
             var currentSuit = cardsToEvaluate[0].suit
@@ -230,7 +257,7 @@ class HoldemViewController: UIViewController {
             }
             //now check for straight:
             //track the highest, lowest, and 2nd-highest.
-            var lowest = cardsToEvaluate[0]
+            /*var lowest = cardsToEvaluate[0]
             var highest = cardsToEvaluate[0]
             for eachCard in cardsToEvaluate {
                 if eachCard.value > highest.value {
@@ -239,44 +266,39 @@ class HoldemViewController: UIViewController {
                 if eachCard.value < lowest.value {
                     lowest = eachCard
                 }
-            }
-            if (highest.value - lowest.value) == 4 {
+            } */
+            if (cardsToEvaluate[0].value - cardsToEvaluate[4].value) == 4 {
                 isStraight = true
             }
-            else if highest.value == 14 {
-                //Change Ace's value to 1, in case A2345
-                println("Ace downgraded")
-                highest.value = 1
-                lowest = highest
-                for eachCard in cardsToEvaluate {
-                    if eachCard.value > highest.value {
-                        highest = eachCard
-                    }
-                }
-                if highest.value == 5 {
+            else if cardsToEvaluate[0].value == 14 {
+                if cardsToEvaluate[1].value == 5 {
                     isStraight = true
                     print("WHEEL: ")
+                    //move ace to the back; it is now small.
+                    let saveAce = cardsToEvaluate[0]
+                    cardsToEvaluate.removeAtIndex(0)
+                    cardsToEvaluate.append(saveAce)
                     for eachCard in cardsToEvaluate {
                         print(eachCard.value)
                     }
                 }
-                else {
-                //Change Ace's value back to 14, and re-set to highest.
-                lowest.value = 14
-                highest = lowest
-                    //lowest is NOT re-set.
-                }
-                println("highest is currently: \(highest.value)")
             }
-            println("Ace should be: \(lowest.valueDisplay) and \(lowest.value)")
             if isStraight && isFlush {
                 handRanking = 8
-                if handRanking >= self.bestHandType {
+                if handRanking > self.bestHandType {
                     self.bestHandType = 8
-                    if highest.value < 14 && self.handLabel.text != "Royal Flush" {
-                        self.handLabel.text = "Straight Flush"
+                    if cardsToEvaluate[0].value == 14 {
+                        self.handLabel.text = "Royal Flush"
                     }
                     else {
+                        self.handLabel.text = "Straight Flush"
+                    }
+                    self.best5CardCombo = cardsToEvaluate
+                    //already been sorted
+                }
+                else if handRanking == self.bestHandType {
+                    self.best5CardCombo = handComparer.compareEach(best5CardCombo, hand2: cardsToEvaluate)
+                    if cardsToEvaluate[0].value == 14 {
                         self.handLabel.text = "Royal Flush"
                     }
                 }
@@ -284,8 +306,12 @@ class HoldemViewController: UIViewController {
             else if isFlush {
                 handRanking = 5
                 if handRanking > self.bestHandType {
-                self.bestHandType = 5
-                self.handLabel.text = "Flush"
+                    self.bestHandType = 5
+                    self.handLabel.text = "Flush"
+                    self.best5CardCombo = cardsToEvaluate
+                }
+                else if handRanking == self.bestHandType {
+                    self.best5CardCombo = handComparer.compareEach(best5CardCombo, hand2: cardsToEvaluate)
                 }
             }
             else if isStraight {
@@ -293,15 +319,25 @@ class HoldemViewController: UIViewController {
                 if handRanking > self.bestHandType {
                     self.bestHandType = 4
                     self.handLabel.text = "Straight"
+                    self.best5CardCombo = cardsToEvaluate
+                }
+                else if handRanking == self.bestHandType {
+                    self.best5CardCombo = handComparer.compareEach(best5CardCombo, hand2: cardsToEvaluate)
                 }
             }
-            if self.bestHandType == 0 {
-                self.handLabel.text = "Nothing"
+            else {
+                if handRanking == 0 && self.bestHandType == 0 {
+                    self.best5CardCombo = handComparer.compareEach(best5CardCombo, hand2: cardsToEvaluate)
+                    self.handLabel.text = "Nothing"
+                }
             }
         }
         
         self.handLabel.hidden = false
-        //println(self.handLabel.text)
+        println(self.handLabel.text)
+        for eachCard in best5CardCombo {
+            println("\(eachCard.valueName) of \(eachCard.suitName)")
+        }
         return self.handLabel.text
     }
     
@@ -370,6 +406,14 @@ class HoldemViewController: UIViewController {
             println("River card is a \(river.currentCard.valueName)")
             //this should be for-in loop, for all players:
             self.evaluateFullHand(cardsUsed)
+            //highlight the cards used:
+            for eachImage in allCards {
+                for eachUsed in best5CardCombo {
+                    if (eachImage.currentCard.value == eachUsed.value) && (eachImage.currentCard.suit == eachUsed.suit) {
+                        eachImage.layer.borderColor = UIColor.redColor().CGColor
+                    }
+                }
+            }
         }
         else if handStage == 3 {
             //end the round.

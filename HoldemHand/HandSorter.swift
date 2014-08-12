@@ -31,6 +31,49 @@ class HandSorter {
         }
         return sortedPart
     }
+    func sortQuads(var hand:[Card], var quadValue: Card) -> [Card] {
+        var sortedPart = [Card]()
+        while sortedPart.count < 4 {
+            for var i = 0; i < hand.count; i++ {
+                if hand[i].value == quadValue.value {
+                    sortedPart.append(hand[i])
+                    hand.removeAtIndex(i)
+                }
+            }
+        }
+        sortedPart.append(hand[0])
+        return sortedPart
+    }
+    func sortBoat(var hand: [Card], var tripValue: Card) -> [Card] {
+        var sortedPart = [Card]()
+        while sortedPart.count < 3 {
+            for var i = 0; i < hand.count; i++ {
+                if hand[i].value == tripValue.value {
+                    sortedPart.append(hand[i])
+                    hand.removeAtIndex(i)
+                }
+            }
+        }
+        sortedPart.append(hand[0])
+        sortedPart.append(hand[1])
+        return sortedPart
+    }
+    func sortTrips(var hand: [Card], var tripValue: Card) -> [Card] {
+        var sortedPart = [Card]()
+        while sortedPart.count < 3 {
+            for var i = 0; i < hand.count; i++ {
+                if hand[i].value == tripValue.value {
+                    sortedPart.append(hand[i])
+                    hand.removeAtIndex(i)
+                }
+            }
+        }
+        hand = self.sortCardValue(hand)
+        for var i = 0; i < hand.count; i++ {
+            sortedPart.append(hand[i])
+        }
+        return sortedPart
+    }
     func sortTwoPair(var hand: [Card], var pairValues: [Int]) -> [Card] {
         var sortedPart = [Card]()
         let higherPair = pairValues[1] //second one added is higher.

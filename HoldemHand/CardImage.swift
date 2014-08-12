@@ -34,7 +34,7 @@ import UIKit
         }
     }
     
-    @IBInspectable var borderColor: UIColor = UIColor.greenColor() {
+    @IBInspectable var borderColor: UIColor = UIColor.redColor() {
         didSet {
             layer.borderColor = borderColor.CGColor
         }
