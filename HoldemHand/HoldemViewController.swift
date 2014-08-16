@@ -37,6 +37,10 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     @IBOutlet var player12: CardImage!
     @IBOutlet var opponent11: CardImage!
     @IBOutlet var opponent12: CardImage!
+    @IBOutlet var opponent21: CardImage!
+    @IBOutlet var opponent22: CardImage!
+    @IBOutlet var opponent31: CardImage!
+    @IBOutlet var opponent32: CardImage!
     
     var best5CardCombo = [Card]()
     
@@ -65,12 +69,45 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     
     func updatePlayersCards(players: [Player]) {
         var onlyPlayer = players[0]
-        player11.currentCard = onlyPlayer.hand[0]
-        player12.currentCard = onlyPlayer.hand[1]
+        if onlyPlayer.eliminated == false {
+            player11.currentCard = onlyPlayer.hand[0]
+            player12.currentCard = onlyPlayer.hand[1]
+        }
+        else {
+            player11.hidden = true
+            player12.hidden = true
+        }
         var only2ndPlayer = players[1]
-        opponent11.currentCard = only2ndPlayer.hand[0]
-        opponent12.currentCard = only2ndPlayer.hand[1]
-        
+        if only2ndPlayer.eliminated == false {
+            opponent11.currentCard = nil
+            opponent12.currentCard = nil
+        }
+        else {
+            opponent11.hidden = true
+            opponent12.hidden = true
+        }
+        if players.count > 2 {
+            let player = players[2]
+            if player.eliminated == false {
+                opponent21.currentCard = nil
+                opponent22.currentCard = nil
+            }
+            else {
+                opponent21.hidden = true
+                opponent22.hidden = true
+            }
+        }
+        if players.count > 3 {
+            let player = players[3]
+            if player.eliminated == false {
+                opponent31.currentCard = nil
+                opponent32.currentCard = nil
+            }
+            else {
+                opponent31.hidden = true
+                opponent32.hidden = true
+            }
+        }
         //so now the player cards are dealt.
     }
     
@@ -215,27 +252,44 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     }
     
     func beginAllIn() {
-        //reveal 2 players cards:
-//        self.opponent11.currentCard = holdemDeck.drawCard()
-//        self.opponent12.currentCard = holdemDeck.drawCard()
+        //reveal opponent's cards:
+        var only2ndPlayer = gameController.players[1]
+        if only2ndPlayer.eliminated == false && only2ndPlayer.folded == false {
+            opponent11.currentCard = only2ndPlayer.hand[0]
+            opponent12.currentCard = only2ndPlayer.hand[1]
+        }
+        if gameController.players.count > 2 {
+            let player = gameController.players[2]
+            if player.eliminated == false && player.folded == false {
+                opponent21.currentCard = player.hand[0]
+                opponent22.currentCard = player.hand[1]
+            }
+        }
+        if gameController.players.count > 3 {
+            let player = gameController.players[3]
+            if player.eliminated == false && player.folded == false {
+                opponent31.currentCard = player.hand[0]
+                opponent32.currentCard = player.hand[1]
+            }
+        }
         //MISSING METHOD: reveal all cards.
         if handStage == 0 {
-            var timer1 = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer1 = NSTimer.scheduledTimerWithTimeInterval(14, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
             var timer2 = NSTimer.scheduledTimerWithTimeInterval(35, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(60, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer4 = NSTimer.scheduledTimerWithTimeInterval(62, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer5 = NSTimer.scheduledTimerWithTimeInterval(64, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
+            var timer3 = NSTimer.scheduledTimerWithTimeInterval(70, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer4 = NSTimer.scheduledTimerWithTimeInterval(72, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer5 = NSTimer.scheduledTimerWithTimeInterval(74, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
         }
         else if handStage == 1 {
-            var timer1 = NSTimer.scheduledTimerWithTimeInterval(4, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer2 = NSTimer.scheduledTimerWithTimeInterval(11, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer4 = NSTimer.scheduledTimerWithTimeInterval(14, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
+            var timer1 = NSTimer.scheduledTimerWithTimeInterval(20, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer2 = NSTimer.scheduledTimerWithTimeInterval(55, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer3 = NSTimer.scheduledTimerWithTimeInterval(57, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer4 = NSTimer.scheduledTimerWithTimeInterval(59, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
         }
         else if handStage == 2 {
-            var timer1 = NSTimer.scheduledTimerWithTimeInterval(7, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer2 = NSTimer.scheduledTimerWithTimeInterval(8, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(9, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
+            var timer1 = NSTimer.scheduledTimerWithTimeInterval(30, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer2 = NSTimer.scheduledTimerWithTimeInterval(32, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer3 = NSTimer.scheduledTimerWithTimeInterval(34, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
         }
         
     }
@@ -575,6 +629,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             }
             else {
                 gameController.calculateOuts()
+                //calculate odds. If odds are already 100%, just quickly deal next cards.
             }
         }
         else if handStage == 1 {

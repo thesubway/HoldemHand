@@ -501,9 +501,21 @@ class GameController {
         }
         self.calculateLeader()
         for eachPlayer in playersInHand {
-            println("Player \(eachPlayer.seatNumber) has \(eachPlayer.outs.count) outs.")
+            if eachPlayer.isLeading == false {
+                println("Player \(eachPlayer.seatNumber) has \(eachPlayer.outs.count) outs:")
+                for eachCard2 in eachPlayer.outs {
+                    print("\(eachCard2.valueDisplay)\(eachCard2.suit) ")
+                }
+                println()
+            }
         }
         println("There are \(outsForTie.count) outs for TIE.")
+        if outsForTie.count < 23 && outsForTie.count > 0 {
+            for eachCard in outsForTie {
+                print("\(eachCard.valueDisplay)\(eachCard.suit) ")
+            }
+            println()
+        }
         //done with outs, so empty the lists again.
         for eachPlayer in self.players {
             eachPlayer.outs = [Card]()
@@ -565,7 +577,15 @@ class GameController {
                     }
                     else {
                         self.players[i].isLeading = false
+                        //Display their outs in other method.
                     }
+                }
+            }
+        }
+        for eachPlayer in winnerList {
+            if winnerList.count > 1 {
+                if eachPlayer.isLeading == true {
+                    eachPlayer.isLeading = false
                 }
             }
         }

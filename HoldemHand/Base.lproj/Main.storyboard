@@ -58,8 +58,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HiX-M0-uXT">
-                                <rect key="frame" x="24" y="59" width="313" height="137"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HiX-M0-uXT">
+                                <rect key="frame" x="24" y="59" width="296" height="137"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q5s-SP-jFx" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
                                         <rect key="frame" x="9" y="11" width="50" height="117"/>
@@ -149,7 +149,7 @@
                                         </variation>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="s5L-Zn-lTA" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                        <rect key="frame" x="240" y="11" width="50" height="117"/>
+                                        <rect key="frame" x="240" y="48" width="50" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="7j5-xe-LM6"/>
                                             <constraint firstAttribute="height" constant="80" id="SE7-HO-Axw"/>
@@ -211,7 +211,7 @@
                                 <rect key="frame" x="33" y="355" width="156" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="156" id="HAj-5q-ZaR"/>
-                                    <constraint firstAttribute="height" constant="30" id="OG2-kg-dxx"/>
+                                    <constraint firstAttribute="width" constant="156" id="a0V-vo-gVr"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -224,15 +224,14 @@
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
                                         <include reference="HAj-5q-ZaR"/>
-                                        <exclude reference="OG2-kg-dxx"/>
                                     </mask>
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rW8-VO-mrF">
-                                <rect key="frame" x="16" y="214" width="291" height="54"/>
+                                <rect key="frame" x="16" y="214" width="191" height="54"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iKL-tF-1HP">
-                                        <rect key="frame" x="133" y="0.0" width="150" height="54"/>
+                                        <rect key="frame" x="133" y="0.0" width="50" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="150" id="7NP-7j-Luu"/>
                                         </constraints>
@@ -312,488 +311,318 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uEa-6P-laE" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="31" y="276" width="50" height="62"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ek-xO-bj7">
+                                <rect key="frame" x="195" y="271" width="118" height="73"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hrh-ou-aSX" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="62" y="5" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="TWc-lt-zFt"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9c6-c1-miE" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="7" y="5" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="zP0-tg-1yc"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.48228660625044928" blue="0.51343821806614454" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="62" id="8mI-ku-3fd"/>
-                                    <constraint firstAttribute="width" constant="50" id="COR-xm-PC4"/>
-                                    <constraint firstAttribute="width" constant="50" id="GgZ-EM-Buf"/>
-                                    <constraint firstAttribute="height" constant="62" id="OWr-GS-F8Y"/>
+                                    <constraint firstItem="hrh-ou-aSX" firstAttribute="leading" secondItem="9c6-c1-miE" secondAttribute="trailing" constant="5" id="1tD-W2-gVx"/>
+                                    <constraint firstItem="9c6-c1-miE" firstAttribute="top" secondItem="6ek-xO-bj7" secondAttribute="top" constant="5" id="CpF-Wy-zmL"/>
+                                    <constraint firstItem="9c6-c1-miE" firstAttribute="leading" secondItem="6ek-xO-bj7" secondAttribute="leading" constant="7" id="FhY-kd-Lo9"/>
+                                    <constraint firstItem="hrh-ou-aSX" firstAttribute="bottom" secondItem="9c6-c1-miE" secondAttribute="bottom" id="hnz-Jd-1h2"/>
+                                    <constraint firstItem="hrh-ou-aSX" firstAttribute="top" secondItem="9c6-c1-miE" secondAttribute="top" id="lZY-vh-zRM"/>
+                                    <constraint firstItem="hrh-ou-aSX" firstAttribute="centerY" secondItem="6ek-xO-bj7" secondAttribute="centerY" id="xd7-Yj-qNI"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.2359398680466408" green="1" blue="0.29007034795589692" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="8mI-ku-3fd"/>
-                                        <exclude reference="COR-xm-PC4"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="8mI-ku-3fd"/>
-                                        <include reference="COR-xm-PC4"/>
-                                        <exclude reference="GgZ-EM-Buf"/>
-                                        <exclude reference="OWr-GS-F8Y"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Hy-zN-8bQ" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="86" y="276" width="50" height="62"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bpi-nx-zo8">
+                                <rect key="frame" x="24" y="271" width="119" height="73"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Hy-zN-8bQ" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="62" y="5" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="sWM-zf-Gns"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.2359398680466408" green="1" blue="0.29007034795589692" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uEa-6P-laE" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="7" y="5" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="62" id="8Xl-tD-bd9"/>
+                                            <constraint firstAttribute="width" constant="50" id="Bte-zw-myc"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.2359398680466408" green="1" blue="0.29007034795589692" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.48228660625044928" blue="0.51343821806614454" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="RmD-gf-vHK"/>
-                                    <constraint firstAttribute="width" constant="50" id="XU4-no-fdw"/>
+                                    <constraint firstItem="uEa-6P-laE" firstAttribute="centerY" secondItem="bpi-nx-zo8" secondAttribute="centerY" id="9Y6-aG-oAg"/>
+                                    <constraint firstItem="uEa-6P-laE" firstAttribute="top" secondItem="4Hy-zN-8bQ" secondAttribute="top" id="cu8-4O-ghy"/>
+                                    <constraint firstItem="4Hy-zN-8bQ" firstAttribute="leading" secondItem="uEa-6P-laE" secondAttribute="trailing" constant="5" id="ffm-Hh-L9J"/>
+                                    <constraint firstItem="uEa-6P-laE" firstAttribute="leading" secondItem="bpi-nx-zo8" secondAttribute="leading" constant="7" id="i0w-2R-m4i"/>
+                                    <constraint firstItem="uEa-6P-laE" firstAttribute="bottom" secondItem="4Hy-zN-8bQ" secondAttribute="bottom" id="ly0-dj-ShJ"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.2359398680466408" green="1" blue="0.29007034795589692" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="XU4-no-fdw"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="RmD-gf-vHK"/>
-                                        <include reference="XU4-no-fdw"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9c6-c1-miE" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="202" y="276" width="50" height="62"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x4I-IU-9fJ">
+                                <rect key="frame" x="195" y="387" width="118" height="74"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JdQ-DQ-8Pj" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="7" y="6" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="opZ-cy-8Bq"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XuC-aX-1h9" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="62" y="6" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="WUM-dR-4RW"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.48228660629999998" blue="0.51343821810000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="CeU-At-BTm"/>
-                                    <constraint firstAttribute="width" constant="50" id="ZmC-7w-1Jo"/>
+                                    <constraint firstItem="XuC-aX-1h9" firstAttribute="top" secondItem="JdQ-DQ-8Pj" secondAttribute="top" id="164-C4-blD"/>
+                                    <constraint firstItem="JdQ-DQ-8Pj" firstAttribute="centerY" secondItem="x4I-IU-9fJ" secondAttribute="centerY" id="AbA-fz-0BA"/>
+                                    <constraint firstAttribute="trailing" secondItem="XuC-aX-1h9" secondAttribute="trailing" constant="6" id="BeP-GD-Pr0"/>
+                                    <constraint firstItem="JdQ-DQ-8Pj" firstAttribute="top" secondItem="x4I-IU-9fJ" secondAttribute="top" constant="6" id="DGR-hh-wgW"/>
+                                    <constraint firstItem="JdQ-DQ-8Pj" firstAttribute="bottom" secondItem="XuC-aX-1h9" secondAttribute="bottom" id="S2Q-lJ-u5E"/>
+                                    <constraint firstItem="XuC-aX-1h9" firstAttribute="leading" secondItem="JdQ-DQ-8Pj" secondAttribute="trailing" constant="5" id="egl-8s-MWg"/>
+                                    <constraint firstItem="JdQ-DQ-8Pj" firstAttribute="leading" secondItem="x4I-IU-9fJ" secondAttribute="leading" constant="7" id="rbl-gc-JTr"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="CeU-At-BTm"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="CeU-At-BTm"/>
-                                        <exclude reference="ZmC-7w-1Jo"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hrh-ou-aSX" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="257" y="276" width="50" height="62"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qGY-4s-flQ">
+                                <rect key="frame" x="24" y="387" width="118" height="74"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kkl-D1-7dj" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="7" y="6" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="EuD-Rd-s7S"/>
+                                            <constraint firstAttribute="width" constant="50" id="ioe-ml-yUo"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Nq-WJ-3Ht" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="62" y="6" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="umE-Ll-RgN"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.48228660629999998" blue="0.51343821810000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="XbN-nu-zMk"/>
-                                    <constraint firstAttribute="width" constant="50" id="qzO-QD-QVC"/>
+                                    <constraint firstItem="3Nq-WJ-3Ht" firstAttribute="centerY" secondItem="qGY-4s-flQ" secondAttribute="centerY" id="9nY-2i-aqv"/>
+                                    <constraint firstItem="3Nq-WJ-3Ht" firstAttribute="bottom" secondItem="Kkl-D1-7dj" secondAttribute="bottom" id="KfN-pu-Kyk"/>
+                                    <constraint firstItem="3Nq-WJ-3Ht" firstAttribute="top" secondItem="Kkl-D1-7dj" secondAttribute="top" id="MPd-oD-BE4"/>
+                                    <constraint firstItem="Kkl-D1-7dj" firstAttribute="leading" secondItem="qGY-4s-flQ" secondAttribute="leading" constant="7" id="SA3-Wj-ENV"/>
+                                    <constraint firstAttribute="trailing" secondItem="3Nq-WJ-3Ht" secondAttribute="trailing" constant="6" id="gAn-VN-aLO"/>
+                                    <constraint firstItem="Kkl-D1-7dj" firstAttribute="top" secondItem="qGY-4s-flQ" secondAttribute="top" constant="6" id="tEa-iC-3xX"/>
+                                    <constraint firstItem="3Nq-WJ-3Ht" firstAttribute="leading" secondItem="Kkl-D1-7dj" secondAttribute="trailing" constant="5" id="tXx-7P-Ou8"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="qzO-QD-QVC"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="XbN-nu-zMk"/>
-                                        <include reference="qzO-QD-QVC"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IPA-3e-wEo" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="31" y="276" width="50" height="62"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fWS-je-StV">
+                                <rect key="frame" x="24" y="479" width="118" height="74"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3qX-kg-8CY" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="7" y="6" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="2cp-C0-8ar"/>
+                                            <constraint firstAttribute="width" constant="50" id="mrx-4K-eGn"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gaf-MN-yc7" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="62" y="6" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="MfI-s5-mRo"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.48228660629999998" blue="0.51343821810000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="62" id="55z-wi-epd"/>
-                                    <constraint firstAttribute="width" constant="50" id="Pzu-W7-k6W"/>
-                                    <constraint firstAttribute="height" constant="62" id="u2d-vR-PHN"/>
+                                    <constraint firstItem="3qX-kg-8CY" firstAttribute="top" secondItem="fWS-je-StV" secondAttribute="top" constant="6" id="4FN-bB-32l"/>
+                                    <constraint firstAttribute="trailing" secondItem="gaf-MN-yc7" secondAttribute="trailing" constant="6" id="AXa-kt-0Tj"/>
+                                    <constraint firstItem="3qX-kg-8CY" firstAttribute="centerY" secondItem="fWS-je-StV" secondAttribute="centerY" id="EJT-JG-9eW"/>
+                                    <constraint firstItem="gaf-MN-yc7" firstAttribute="leading" secondItem="3qX-kg-8CY" secondAttribute="trailing" constant="5" id="QKz-p4-8Sw"/>
+                                    <constraint firstItem="gaf-MN-yc7" firstAttribute="top" secondItem="3qX-kg-8CY" secondAttribute="top" id="UTh-6b-hNB"/>
+                                    <constraint firstItem="3qX-kg-8CY" firstAttribute="leading" secondItem="fWS-je-StV" secondAttribute="leading" constant="7" id="nbu-Pq-iUT"/>
+                                    <constraint firstItem="gaf-MN-yc7" firstAttribute="bottom" secondItem="3qX-kg-8CY" secondAttribute="bottom" id="qVL-EX-2lf"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="55z-wi-epd"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="55z-wi-epd"/>
-                                        <exclude reference="Pzu-W7-k6W"/>
-                                        <exclude reference="u2d-vR-PHN"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5V8-iJ-Zy5" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="86" y="276" width="50" height="62"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YtA-mj-htf">
+                                <rect key="frame" x="195" y="479" width="118" height="74"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8re-7f-Yf7" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="7" y="6" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="oOP-d9-8mI"/>
+                                            <constraint firstAttribute="width" constant="50" id="oPh-uY-U2W"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jho-uo-7x2" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
+                                        <rect key="frame" x="62" y="6" width="50" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="ozj-ZT-amI"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.48228660629999998" blue="0.51343821810000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="5yG-YE-0Kz"/>
+                                    <constraint firstItem="8re-7f-Yf7" firstAttribute="centerY" secondItem="YtA-mj-htf" secondAttribute="centerY" id="Tsu-GL-IYj"/>
+                                    <constraint firstItem="8re-7f-Yf7" firstAttribute="top" secondItem="Jho-uo-7x2" secondAttribute="top" id="WhW-P4-QzZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="Jho-uo-7x2" secondAttribute="trailing" constant="6" id="cKn-IC-XMC"/>
+                                    <constraint firstItem="8re-7f-Yf7" firstAttribute="bottom" secondItem="Jho-uo-7x2" secondAttribute="bottom" id="fo8-ZL-ri3"/>
+                                    <constraint firstItem="8re-7f-Yf7" firstAttribute="leading" secondItem="YtA-mj-htf" secondAttribute="leading" constant="7" id="jQc-Vl-zCu"/>
+                                    <constraint firstItem="8re-7f-Yf7" firstAttribute="top" secondItem="YtA-mj-htf" secondAttribute="top" constant="6" id="usM-9X-c7h"/>
+                                    <constraint firstItem="Jho-uo-7x2" firstAttribute="leading" secondItem="8re-7f-Yf7" secondAttribute="trailing" constant="5" id="zF4-Rl-gc3"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="5yG-YE-0Kz"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qwT-Oe-2Ju" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="202" y="276" width="50" height="62"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="wIn-jw-7dJ"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="wIn-jw-7dJ"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YjW-Jc-z45" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="257" y="276" width="50" height="62"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="LGl-Ee-26d"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="LGl-Ee-26d"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="geM-I0-4ZY" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="31" y="276" width="50" height="62"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="62" id="Pen-zB-5IV"/>
-                                    <constraint firstAttribute="height" constant="62" id="lOv-HF-M3f"/>
-                                    <constraint firstAttribute="width" constant="50" id="w7k-5z-brP"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Pen-zB-5IV"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="Pen-zB-5IV"/>
-                                        <exclude reference="lOv-HF-M3f"/>
-                                        <exclude reference="w7k-5z-brP"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SoX-hh-ryt" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="86" y="276" width="50" height="62"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="cbd-Bk-ON7"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="cbd-Bk-ON7"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UNh-5X-dko" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="202" y="276" width="50" height="62"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="AOm-My-h1O"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="AOm-My-h1O"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UVP-t1-5Ff" customClass="CardImage" customModule="HoldemHand" customModuleProvider="target">
-                                <rect key="frame" x="257" y="276" width="50" height="62"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="pUB-dd-yZS"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.235939868" green="1" blue="0.29007034799999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="pUB-dd-yZS"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5V8-iJ-Zy5" firstAttribute="trailing" secondItem="4Hy-zN-8bQ" secondAttribute="trailing" id="2iW-ac-T6P"/>
-                            <constraint firstItem="uEa-6P-laE" firstAttribute="top" secondItem="4Hy-zN-8bQ" secondAttribute="top" id="31O-yZ-tak"/>
-                            <constraint firstItem="do2-Np-5tc" firstAttribute="centerX" secondItem="4Hy-zN-8bQ" secondAttribute="centerX" id="4Ap-LN-0wE"/>
-                            <constraint firstItem="qwT-Oe-2Ju" firstAttribute="top" secondItem="5V8-iJ-Zy5" secondAttribute="top" id="4qS-nR-k5z"/>
+                            <constraint firstItem="qGY-4s-flQ" firstAttribute="top" secondItem="J6j-q7-99t" secondAttribute="top" constant="387" id="3xd-pY-7Aj"/>
                             <constraint firstItem="rW8-VO-mrF" firstAttribute="leading" secondItem="J6j-q7-99t" secondAttribute="leadingMargin" id="5JX-d1-EJ4"/>
-                            <constraint firstItem="hrh-ou-aSX" firstAttribute="bottom" secondItem="9c6-c1-miE" secondAttribute="bottom" id="5L7-FM-Pwr"/>
-                            <constraint firstItem="SoX-hh-ryt" firstAttribute="top" secondItem="UNh-5X-dko" secondAttribute="top" id="6pi-d2-99U"/>
-                            <constraint firstItem="IPA-3e-wEo" firstAttribute="bottom" secondItem="5V8-iJ-Zy5" secondAttribute="bottom" id="8p4-XR-zJa"/>
-                            <constraint firstItem="UNh-5X-dko" firstAttribute="bottom" secondItem="SoX-hh-ryt" secondAttribute="bottom" id="9Hs-Dc-FHo"/>
-                            <constraint firstItem="geM-I0-4ZY" firstAttribute="top" secondItem="IPA-3e-wEo" secondAttribute="bottom" constant="20" id="9gA-Ci-28V"/>
-                            <constraint firstItem="rW8-VO-mrF" firstAttribute="trailing" secondItem="hrh-ou-aSX" secondAttribute="trailing" id="AhP-hA-PdB"/>
-                            <constraint firstItem="SoX-hh-ryt" firstAttribute="bottom" secondItem="geM-I0-4ZY" secondAttribute="bottom" id="Bk8-ZR-cmH"/>
-                            <constraint firstItem="qwT-Oe-2Ju" firstAttribute="top" secondItem="YjW-Jc-z45" secondAttribute="top" id="C2C-QF-e7Y"/>
-                            <constraint firstItem="4Hy-zN-8bQ" firstAttribute="top" secondItem="9c6-c1-miE" secondAttribute="top" id="CHx-3N-kAn"/>
-                            <constraint firstItem="uEa-6P-laE" firstAttribute="leading" secondItem="IPA-3e-wEo" secondAttribute="leading" id="Cv4-g2-DSr"/>
-                            <constraint firstItem="do2-Np-5tc" firstAttribute="top" secondItem="uEa-6P-laE" secondAttribute="bottom" constant="17" id="E94-dy-VCv"/>
-                            <constraint firstItem="uEa-6P-laE" firstAttribute="leading" secondItem="J6j-q7-99t" secondAttribute="leadingMargin" constant="18" id="FS4-fE-aZg"/>
+                            <constraint firstItem="6ek-xO-bj7" firstAttribute="leading" secondItem="bpi-nx-zo8" secondAttribute="trailing" constant="52" id="5Jb-T3-WRI"/>
+                            <constraint firstItem="fWS-je-StV" firstAttribute="bottom" secondItem="YtA-mj-htf" secondAttribute="bottom" id="E9Q-7F-gVf"/>
+                            <constraint firstItem="6ek-xO-bj7" firstAttribute="trailing" secondItem="x4I-IU-9fJ" secondAttribute="trailing" id="FKA-xe-Qmr"/>
+                            <constraint firstAttribute="trailing" secondItem="6ek-xO-bj7" secondAttribute="trailing" constant="287" id="FU2-v4-yHL"/>
                             <constraint firstItem="rW8-VO-mrF" firstAttribute="top" secondItem="HiX-M0-uXT" secondAttribute="bottom" constant="18" id="FWO-T4-kh4"/>
-                            <constraint firstItem="SoX-hh-ryt" firstAttribute="leading" secondItem="5V8-iJ-Zy5" secondAttribute="leading" id="FZ1-Pq-gTi"/>
-                            <constraint firstItem="9c6-c1-miE" firstAttribute="bottom" secondItem="hrh-ou-aSX" secondAttribute="bottom" id="FZD-F5-VCO"/>
-                            <constraint firstItem="uEa-6P-laE" firstAttribute="bottom" secondItem="4Hy-zN-8bQ" secondAttribute="bottom" id="FtZ-XB-ElU"/>
-                            <constraint firstItem="uEa-6P-laE" firstAttribute="top" secondItem="rW8-VO-mrF" secondAttribute="bottom" constant="8" symbolic="YES" id="Ge9-PI-VRN"/>
-                            <constraint firstItem="xvm-T9-LNs" firstAttribute="top" secondItem="hrh-ou-aSX" secondAttribute="bottom" constant="262" id="Hbx-nz-6aR"/>
-                            <constraint firstItem="9c6-c1-miE" firstAttribute="leading" secondItem="4Hy-zN-8bQ" secondAttribute="trailing" constant="66" id="HiY-wA-FeO"/>
-                            <constraint firstItem="SoX-hh-ryt" firstAttribute="top" secondItem="geM-I0-4ZY" secondAttribute="top" id="IDc-JW-JlJ"/>
-                            <constraint firstItem="uEa-6P-laE" firstAttribute="leading" secondItem="J6j-q7-99t" secondAttribute="leadingMargin" constant="15" id="Imq-ia-f3G"/>
-                            <constraint firstItem="hrh-ou-aSX" firstAttribute="leading" secondItem="9c6-c1-miE" secondAttribute="trailing" constant="5" id="KJj-BB-qJb"/>
+                            <constraint firstItem="qGY-4s-flQ" firstAttribute="top" secondItem="do2-Np-5tc" secondAttribute="bottom" constant="2" id="FcE-Jp-IKl"/>
+                            <constraint firstItem="6ek-xO-bj7" firstAttribute="leading" secondItem="x4I-IU-9fJ" secondAttribute="leading" id="GFR-Tu-mAI"/>
+                            <constraint firstItem="xvm-T9-LNs" firstAttribute="top" secondItem="fWS-je-StV" secondAttribute="bottom" constant="47" id="GU1-6j-fG0"/>
                             <constraint firstItem="rW8-VO-mrF" firstAttribute="top" secondItem="J6j-q7-99t" secondAttribute="top" constant="214" id="KUr-dA-LNl"/>
-                            <constraint firstItem="uEa-6P-laE" firstAttribute="top" secondItem="4Hy-zN-8bQ" secondAttribute="top" id="Kqk-BM-1wo"/>
-                            <constraint firstItem="4Hy-zN-8bQ" firstAttribute="top" secondItem="9c6-c1-miE" secondAttribute="top" id="N7i-Di-RaP"/>
-                            <constraint firstItem="IPA-3e-wEo" firstAttribute="trailing" secondItem="uEa-6P-laE" secondAttribute="trailing" id="NXV-v0-eNc"/>
-                            <constraint firstItem="4Hy-zN-8bQ" firstAttribute="leading" secondItem="uEa-6P-laE" secondAttribute="trailing" constant="5" id="OL8-Ht-zgc"/>
-                            <constraint firstItem="YjW-Jc-z45" firstAttribute="leading" secondItem="UVP-t1-5Ff" secondAttribute="leading" id="R5D-cq-Ycn"/>
-                            <constraint firstItem="5V8-iJ-Zy5" firstAttribute="trailing" secondItem="SoX-hh-ryt" secondAttribute="trailing" id="Szg-0u-o8h"/>
-                            <constraint firstItem="9c6-c1-miE" firstAttribute="trailing" secondItem="qwT-Oe-2Ju" secondAttribute="trailing" id="TkQ-zq-oog"/>
+                            <constraint firstItem="YtA-mj-htf" firstAttribute="leading" secondItem="x4I-IU-9fJ" secondAttribute="leading" id="M5q-xQ-E43"/>
+                            <constraint firstItem="6ek-xO-bj7" firstAttribute="top" secondItem="bpi-nx-zo8" secondAttribute="top" id="OTD-ss-wAm"/>
+                            <constraint firstItem="qGY-4s-flQ" firstAttribute="leading" secondItem="fWS-je-StV" secondAttribute="leading" id="Sbj-fn-2v3"/>
+                            <constraint firstItem="do2-Np-5tc" firstAttribute="leading" secondItem="J6j-q7-99t" secondAttribute="leadingMargin" constant="17" id="TWY-XL-Li1"/>
                             <constraint firstItem="HiX-M0-uXT" firstAttribute="top" secondItem="jVT-gq-nag" secondAttribute="bottom" constant="39" id="Tzg-Cu-dJZ"/>
-                            <constraint firstItem="uEa-6P-laE" firstAttribute="top" secondItem="rW8-VO-mrF" secondAttribute="bottom" constant="8" symbolic="YES" id="VgH-wo-yvU"/>
+                            <constraint firstItem="x4I-IU-9fJ" firstAttribute="top" secondItem="qGY-4s-flQ" secondAttribute="top" id="UE1-3O-dsn"/>
+                            <constraint firstItem="x4I-IU-9fJ" firstAttribute="top" secondItem="6ek-xO-bj7" secondAttribute="bottom" constant="43" id="UGC-Dv-Umy"/>
+                            <constraint firstItem="x4I-IU-9fJ" firstAttribute="trailing" secondItem="YtA-mj-htf" secondAttribute="trailing" id="UTP-QP-TEW"/>
+                            <constraint firstItem="6ek-xO-bj7" firstAttribute="leading" secondItem="J6j-q7-99t" secondAttribute="leading" constant="195" id="WOt-qy-7c3"/>
+                            <constraint firstItem="bpi-nx-zo8" firstAttribute="leading" secondItem="qGY-4s-flQ" secondAttribute="leading" id="WmI-MY-hee"/>
                             <constraint firstItem="HiX-M0-uXT" firstAttribute="leading" secondItem="J6j-q7-99t" secondAttribute="leadingMargin" constant="8" id="Wqm-7D-ax2"/>
-                            <constraint firstItem="qwT-Oe-2Ju" firstAttribute="leading" secondItem="9c6-c1-miE" secondAttribute="leading" id="X8H-UW-IdC"/>
-                            <constraint firstItem="UNh-5X-dko" firstAttribute="top" secondItem="UVP-t1-5Ff" secondAttribute="top" id="Xlj-sP-YMD"/>
-                            <constraint firstItem="IPA-3e-wEo" firstAttribute="top" secondItem="uEa-6P-laE" secondAttribute="bottom" constant="27" id="YEc-YI-Pbb"/>
-                            <constraint firstItem="5V8-iJ-Zy5" firstAttribute="top" secondItem="IPA-3e-wEo" secondAttribute="top" id="Ykz-ff-Ezd"/>
-                            <constraint firstItem="4Hy-zN-8bQ" firstAttribute="bottom" secondItem="9c6-c1-miE" secondAttribute="bottom" id="bd8-5W-Nwg"/>
-                            <constraint firstItem="qwT-Oe-2Ju" firstAttribute="bottom" secondItem="YjW-Jc-z45" secondAttribute="bottom" id="biq-GU-2uM"/>
-                            <constraint firstItem="9c6-c1-miE" firstAttribute="bottom" secondItem="4Hy-zN-8bQ" secondAttribute="bottom" id="bmv-na-qNm"/>
-                            <constraint firstItem="IPA-3e-wEo" firstAttribute="leading" secondItem="geM-I0-4ZY" secondAttribute="leading" id="cSE-lD-hfj"/>
-                            <constraint firstItem="hrh-ou-aSX" firstAttribute="leading" secondItem="9c6-c1-miE" secondAttribute="trailing" constant="5" id="dLO-c9-xnK"/>
-                            <constraint firstItem="qwT-Oe-2Ju" firstAttribute="trailing" secondItem="UNh-5X-dko" secondAttribute="trailing" id="g38-Oh-XFN"/>
-                            <constraint firstItem="4Hy-zN-8bQ" firstAttribute="leading" secondItem="uEa-6P-laE" secondAttribute="trailing" constant="5" id="gt1-0p-gc4"/>
-                            <constraint firstItem="hrh-ou-aSX" firstAttribute="leading" secondItem="YjW-Jc-z45" secondAttribute="leading" id="hat-9c-3Ua"/>
-                            <constraint firstItem="IPA-3e-wEo" firstAttribute="trailing" secondItem="geM-I0-4ZY" secondAttribute="trailing" id="ifv-lq-yzv"/>
-                            <constraint firstItem="xvm-T9-LNs" firstAttribute="top" secondItem="geM-I0-4ZY" secondAttribute="bottom" constant="91" id="kfY-yq-y3I"/>
-                            <constraint firstItem="4Hy-zN-8bQ" firstAttribute="leading" secondItem="5V8-iJ-Zy5" secondAttribute="leading" id="mI9-IA-lMZ"/>
-                            <constraint firstItem="YjW-Jc-z45" firstAttribute="trailing" secondItem="UVP-t1-5Ff" secondAttribute="trailing" id="q88-HV-AuP"/>
-                            <constraint firstItem="9c6-c1-miE" firstAttribute="leading" secondItem="4Hy-zN-8bQ" secondAttribute="trailing" constant="30" id="t88-Dv-Aan"/>
-                            <constraint firstItem="9c6-c1-miE" firstAttribute="top" secondItem="hrh-ou-aSX" secondAttribute="top" id="uDf-pf-cOR"/>
+                            <constraint firstItem="YtA-mj-htf" firstAttribute="top" secondItem="fWS-je-StV" secondAttribute="top" id="Wzb-4p-LA0"/>
+                            <constraint firstItem="bpi-nx-zo8" firstAttribute="centerX" secondItem="qGY-4s-flQ" secondAttribute="centerX" id="a4h-AV-sjq"/>
+                            <constraint firstItem="fWS-je-StV" firstAttribute="top" secondItem="J6j-q7-99t" secondAttribute="top" constant="479" id="aYN-zO-Wbf"/>
+                            <constraint firstItem="do2-Np-5tc" firstAttribute="top" secondItem="bpi-nx-zo8" secondAttribute="bottom" constant="11" id="axl-p9-yR7"/>
+                            <constraint firstItem="bpi-nx-zo8" firstAttribute="top" secondItem="J6j-q7-99t" secondAttribute="top" constant="271" id="dpQ-61-C4z"/>
+                            <constraint firstItem="bpi-nx-zo8" firstAttribute="bottom" secondItem="6ek-xO-bj7" secondAttribute="bottom" id="eCw-db-M2W"/>
+                            <constraint firstItem="bpi-nx-zo8" firstAttribute="leading" secondItem="HiX-M0-uXT" secondAttribute="leading" id="fKx-hd-8xh"/>
+                            <constraint firstItem="fWS-je-StV" firstAttribute="top" secondItem="qGY-4s-flQ" secondAttribute="bottom" constant="18" id="iot-4k-cpy"/>
+                            <constraint firstItem="qGY-4s-flQ" firstAttribute="trailing" secondItem="fWS-je-StV" secondAttribute="trailing" id="qa6-BV-lPw"/>
+                            <constraint firstItem="x4I-IU-9fJ" firstAttribute="bottom" secondItem="qGY-4s-flQ" secondAttribute="bottom" id="ral-5h-kOm"/>
                             <constraint firstItem="do2-Np-5tc" firstAttribute="top" secondItem="rW8-VO-mrF" secondAttribute="bottom" constant="1" id="uGk-zH-AiQ">
                                 <variation key="heightClass=regular-widthClass=compact" constant="-448"/>
                             </constraint>
-                            <constraint firstItem="UNh-5X-dko" firstAttribute="bottom" secondItem="UVP-t1-5Ff" secondAttribute="bottom" id="uas-tZ-sDx"/>
-                            <constraint firstItem="5V8-iJ-Zy5" firstAttribute="bottom" secondItem="qwT-Oe-2Ju" secondAttribute="bottom" id="vKz-Vn-QRX"/>
-                            <constraint firstItem="uEa-6P-laE" firstAttribute="bottom" secondItem="4Hy-zN-8bQ" secondAttribute="bottom" id="vWi-Tx-YtU"/>
                             <constraint firstItem="do2-Np-5tc" firstAttribute="leading" secondItem="J6j-q7-99t" secondAttribute="leadingMargin" constant="18" id="waE-fs-SfQ">
                                 <variation key="heightClass=regular-widthClass=compact" constant="8"/>
                             </constraint>
-                            <constraint firstItem="YjW-Jc-z45" firstAttribute="trailing" secondItem="hrh-ou-aSX" secondAttribute="trailing" id="x0a-u0-QV2"/>
-                            <constraint firstItem="9c6-c1-miE" firstAttribute="top" secondItem="hrh-ou-aSX" secondAttribute="top" id="x0u-81-U5b"/>
-                            <constraint firstItem="do2-Np-5tc" firstAttribute="leading" secondItem="J6j-q7-99t" secondAttribute="leadingMargin" constant="17" id="xTa-BG-56I"/>
-                            <constraint firstItem="UNh-5X-dko" firstAttribute="leading" secondItem="qwT-Oe-2Ju" secondAttribute="leading" id="yuT-zt-WcV"/>
+                            <constraint firstItem="bpi-nx-zo8" firstAttribute="top" secondItem="rW8-VO-mrF" secondAttribute="bottom" constant="3" id="yDI-1Q-bmt"/>
                         </constraints>
                         <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="IPA-3e-wEo"/>
-                                <exclude reference="5V8-iJ-Zy5"/>
-                                <exclude reference="qwT-Oe-2Ju"/>
-                                <exclude reference="YjW-Jc-z45"/>
-                                <exclude reference="geM-I0-4ZY"/>
-                                <exclude reference="SoX-hh-ryt"/>
-                                <exclude reference="UNh-5X-dko"/>
-                                <exclude reference="UVP-t1-5Ff"/>
-                            </mask>
                             <mask key="constraints">
                                 <exclude reference="uGk-zH-AiQ"/>
                                 <exclude reference="waE-fs-SfQ"/>
-                                <exclude reference="Cv4-g2-DSr"/>
-                                <exclude reference="FS4-fE-aZg"/>
-                                <exclude reference="Ge9-PI-VRN"/>
-                                <exclude reference="Kqk-BM-1wo"/>
-                                <exclude reference="vWi-Tx-YtU"/>
-                                <exclude reference="N7i-Di-RaP"/>
-                                <exclude reference="bd8-5W-Nwg"/>
-                                <exclude reference="gt1-0p-gc4"/>
-                                <exclude reference="mI9-IA-lMZ"/>
-                                <exclude reference="FZD-F5-VCO"/>
-                                <exclude reference="TkQ-zq-oog"/>
-                                <exclude reference="t88-Dv-Aan"/>
-                                <exclude reference="uDf-pf-cOR"/>
-                                <exclude reference="dLO-c9-xnK"/>
-                                <exclude reference="hat-9c-3Ua"/>
-                                <exclude reference="8p4-XR-zJa"/>
-                                <exclude reference="NXV-v0-eNc"/>
-                                <exclude reference="YEc-YI-Pbb"/>
-                                <exclude reference="cSE-lD-hfj"/>
-                                <exclude reference="ifv-lq-yzv"/>
-                                <exclude reference="2iW-ac-T6P"/>
-                                <exclude reference="Szg-0u-o8h"/>
-                                <exclude reference="Ykz-ff-Ezd"/>
-                                <exclude reference="vKz-Vn-QRX"/>
-                                <exclude reference="4qS-nR-k5z"/>
-                                <exclude reference="C2C-QF-e7Y"/>
-                                <exclude reference="X8H-UW-IdC"/>
-                                <exclude reference="biq-GU-2uM"/>
-                                <exclude reference="g38-Oh-XFN"/>
-                                <exclude reference="R5D-cq-Ycn"/>
-                                <exclude reference="q88-HV-AuP"/>
-                                <exclude reference="x0a-u0-QV2"/>
-                                <exclude reference="9gA-Ci-28V"/>
-                                <exclude reference="6pi-d2-99U"/>
-                                <exclude reference="Bk8-ZR-cmH"/>
-                                <exclude reference="FZ1-Pq-gTi"/>
-                                <exclude reference="IDc-JW-JlJ"/>
-                                <exclude reference="9Hs-Dc-FHo"/>
-                                <exclude reference="Xlj-sP-YMD"/>
-                                <exclude reference="uas-tZ-sDx"/>
-                                <exclude reference="yuT-zt-WcV"/>
-                                <exclude reference="kfY-yq-y3I"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="IPA-3e-wEo"/>
-                                <include reference="5V8-iJ-Zy5"/>
-                                <include reference="qwT-Oe-2Ju"/>
-                                <include reference="YjW-Jc-z45"/>
-                                <include reference="geM-I0-4ZY"/>
-                                <include reference="SoX-hh-ryt"/>
-                                <include reference="UNh-5X-dko"/>
-                                <include reference="UVP-t1-5Ff"/>
-                            </mask>
                             <mask key="constraints">
-                                <exclude reference="4Ap-LN-0wE"/>
-                                <exclude reference="E94-dy-VCv"/>
                                 <include reference="uGk-zH-AiQ"/>
                                 <include reference="waE-fs-SfQ"/>
-                                <exclude reference="xTa-BG-56I"/>
-                                <exclude reference="AhP-hA-PdB"/>
-                                <exclude reference="31O-yZ-tak"/>
-                                <include reference="Cv4-g2-DSr"/>
-                                <include reference="FS4-fE-aZg"/>
-                                <exclude reference="FtZ-XB-ElU"/>
-                                <include reference="Ge9-PI-VRN"/>
-                                <exclude reference="Imq-ia-f3G"/>
-                                <include reference="Kqk-BM-1wo"/>
-                                <exclude reference="VgH-wo-yvU"/>
-                                <include reference="vWi-Tx-YtU"/>
-                                <exclude reference="CHx-3N-kAn"/>
-                                <include reference="N7i-Di-RaP"/>
-                                <exclude reference="OL8-Ht-zgc"/>
-                                <include reference="bd8-5W-Nwg"/>
-                                <include reference="gt1-0p-gc4"/>
-                                <include reference="mI9-IA-lMZ"/>
-                                <include reference="FZD-F5-VCO"/>
-                                <exclude reference="HiY-wA-FeO"/>
-                                <include reference="TkQ-zq-oog"/>
-                                <exclude reference="bmv-na-qNm"/>
-                                <include reference="t88-Dv-Aan"/>
-                                <include reference="uDf-pf-cOR"/>
-                                <exclude reference="x0u-81-U5b"/>
-                                <exclude reference="5L7-FM-Pwr"/>
-                                <exclude reference="KJj-BB-qJb"/>
-                                <include reference="dLO-c9-xnK"/>
-                                <include reference="hat-9c-3Ua"/>
-                                <include reference="8p4-XR-zJa"/>
-                                <include reference="NXV-v0-eNc"/>
-                                <include reference="YEc-YI-Pbb"/>
-                                <include reference="cSE-lD-hfj"/>
-                                <include reference="ifv-lq-yzv"/>
-                                <include reference="2iW-ac-T6P"/>
-                                <include reference="Szg-0u-o8h"/>
-                                <include reference="Ykz-ff-Ezd"/>
-                                <include reference="vKz-Vn-QRX"/>
-                                <include reference="4qS-nR-k5z"/>
-                                <include reference="C2C-QF-e7Y"/>
-                                <include reference="X8H-UW-IdC"/>
-                                <include reference="biq-GU-2uM"/>
-                                <include reference="g38-Oh-XFN"/>
-                                <include reference="R5D-cq-Ycn"/>
-                                <include reference="q88-HV-AuP"/>
-                                <include reference="x0a-u0-QV2"/>
-                                <include reference="9gA-Ci-28V"/>
-                                <include reference="6pi-d2-99U"/>
-                                <include reference="Bk8-ZR-cmH"/>
-                                <include reference="FZ1-Pq-gTi"/>
-                                <include reference="IDc-JW-JlJ"/>
-                                <include reference="9Hs-Dc-FHo"/>
-                                <include reference="Xlj-sP-YMD"/>
-                                <include reference="uas-tZ-sDx"/>
-                                <include reference="yuT-zt-WcV"/>
-                                <exclude reference="Hbx-nz-6aR"/>
-                                <include reference="kfY-yq-y3I"/>
                             </mask>
                         </variation>
                     </view>
@@ -804,6 +633,10 @@
                         <outlet property="handLabel" destination="do2-Np-5tc" id="sjN-rS-xgz"/>
                         <outlet property="opponent11" destination="9c6-c1-miE" id="Ohv-xM-kxf"/>
                         <outlet property="opponent12" destination="hrh-ou-aSX" id="WNu-MG-IPs"/>
+                        <outlet property="opponent21" destination="Kkl-D1-7dj" id="7Ag-MT-Dex"/>
+                        <outlet property="opponent22" destination="3Nq-WJ-3Ht" id="RZl-KP-8gb"/>
+                        <outlet property="opponent31" destination="JdQ-DQ-8Pj" id="Cjk-gi-LWG"/>
+                        <outlet property="opponent32" destination="XuC-aX-1h9" id="TLU-pw-c08"/>
                         <outlet property="player11" destination="uEa-6P-laE" id="8md-8F-nkF"/>
                         <outlet property="player12" destination="4Hy-zN-8bQ" id="Toa-Tv-LgB"/>
                         <outlet property="river" destination="s5L-Zn-lTA" id="O1x-mA-4d0"/>
@@ -812,7 +645,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xnR-fA-tH4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1620" y="135.75"/>
+            <point key="canvasLocation" x="1620" y="135"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="aBE-f1-Cov">
