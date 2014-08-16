@@ -43,6 +43,26 @@ class DeckOfCards {
         return list
     }
 }
+class UnshuffledDeck {
+    var cards: [Card] = []
+    var numSuits = 4
+    init() {
+        //assumes the ace is highest value.
+        var i = 2
+        while i <= 14 {
+            let newCard:Card = Card(value: i, suit: "c")
+            let newCard2:Card = Card(value: i, suit: "d")
+            let newCard3:Card = Card(value: i, suit: "h")
+            let newCard4:Card = Card(value: i, suit: "s")
+            cards.append(newCard)
+            cards.append(newCard2)
+            cards.append(newCard3)
+            cards.append(newCard4)
+            self.numSuits = 4
+            i++
+        }
+    }
+}
 class Card {
     //these values will change
     var valueName = ""
@@ -89,5 +109,14 @@ class Card {
         default:
             suitName = "noSuit?"
         }
+    }
+    func isEqualToCard(var card: Card) -> Bool {
+        if self.suit != card.suit {
+            return false
+        }
+        if self.value != card.value {
+            return false
+        }
+        return true
     }
 }

@@ -16,9 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool {
         // Override point for customization after application launch.
-        let nav = UINavigationController(rootViewController: self.window!.rootViewController)
-        self.window!.rootViewController = nav
-        return true
+   return true
     }
 
     func applicationWillResignActive(application: UIApplication!) {
