@@ -253,14 +253,10 @@ class Player {
             else if cardsToEvaluate[0].value == 14 {
                 if cardsToEvaluate[1].value == 5 {
                     isStraight = true
-                    print("WHEEL: ")
                     //move ace to the back; it is now small.
                     let saveAce = cardsToEvaluate[0]
                     cardsToEvaluate.removeAtIndex(0)
                     cardsToEvaluate.append(saveAce)
-                    for eachCard in cardsToEvaluate {
-                        print(eachCard.value)
-                    }
                 }
             }
             if isStraight && isFlush {

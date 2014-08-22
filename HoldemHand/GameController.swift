@@ -85,8 +85,11 @@ class GameController {
     init(startingChips: Int, numPlayers: Int) {
         self.startingChips = startingChips
         //create human player:
-        for i in 0..<(numPlayers) {
-            var player = Player(isComputer: false, seatNumber: i)
+        var player0 = Player(isComputer: false, seatNumber: 0)
+        player0.chips = startingChips
+        players.append(player0)
+        for i in 1..<(numPlayers) {
+            var player = Player(isComputer: true, seatNumber: i)
             player.chips = startingChips
             players.append(player)
         }
@@ -168,27 +171,33 @@ class GameController {
         }
         player.betForRound = betAmount
         if player.folded == true {
+            holdemViewController.handLabel.text = "Player \(player.seatNumber) folds"
             println("Player \(player.seatNumber) folds")
         }
         else if betAmount == 0 {
-            println("Player \(player.seatNumber) checks.")
+            holdemViewController.handLabel.text = "Player \(player.seatNumber) checks."
+            println("Player \(player.seatNumber) folds")
         }
         if player.betForRound > self.currentHighestBet {
             if self.currentHighestBet == 0 {
                 //so it's a bet.
                 if player.isAllIn == false {
+                    holdemViewController.handLabel.text = "Player \(player.seatNumber) bets \(betAmount) chips"
                     println("Player \(player.seatNumber) bets \(betAmount) chips")
                 }
                 else {
-                    println("Player \(player.seatNumber) is ALL-IN for \(betAmount) chips")
+                    holdemViewController.handLabel.text = "Player \(player.seatNumber) bets \(betAmount) chips"
+                    println("Player \(player.seatNumber) bets \(betAmount) chips")
                 }
             }
             else {
                 if player.isAllIn == false {
                     println("Player \(player.seatNumber) raises to \(betAmount)")
+                    holdemViewController.handLabel.text = "Player \(player.seatNumber) raises to \(betAmount)"
                 }
                 else {
                     println("Player \(player.seatNumber) raises ALL-IN for \(betAmount)")
+                    holdemViewController.handLabel.text = "Player \(player.seatNumber) raises ALL-IN for \(betAmount)"
                 }
             }
             self.currentHighestBet = player.betForRound
@@ -200,10 +209,10 @@ class GameController {
             if self.currentHighestBet > 0 {
                 //That means he calls.
                 if player.isAllIn == false {
-                    println("Player \(player.seatNumber) calls \(betAmount)")
+                    holdemViewController.handLabel.text = "Player \(player.seatNumber) calls \(betAmount)"
                 }
                 else {
-                    println("Player \(player.seatNumber) calls ALL-IN for \(betAmount)")
+                    holdemViewController.handLabel.text = "Player \(player.seatNumber) calls ALL-IN for \(betAmount)"
                 }
             }
         }
@@ -219,7 +228,8 @@ class GameController {
             if let isComputer = self.players[currentPlayer].isComputer {
                 if isComputer {
                     print("Computer makes a bet: ")
-                    self.placeBetForComputer(100, player: self.players[self.currentPlayer])
+//                    var timer1 = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: Selector("placeBetForComputer"), userInfo: nil, repeats: false)
+                    self.placeBetForComputer()
                 }
                 else {
                     //this means it's a human, so:
@@ -262,8 +272,63 @@ class GameController {
             }
         }
     }
-    func placeBetForComputer(amount: Int, player: Player) {
-        self.receiveBet(amount, player: player)
+    func placeBetForComputer() {
+        if self.players[currentPlayer].hand[0].value == self.players[currentPlayer].hand[1].value {
+            if self.players[currentPlayer].hand[0].value <= 8 {
+                self.receiveBet((self.currentHighestBet + 5) * 2, player: self.players[currentPlayer])
+            }
+            else {
+                //go basically all-in:
+                self.receiveBet(self.currentHighestBet + 1000, player: self.players[currentPlayer])
+            }
+        }
+        else {
+            var aceCard = 0
+            var highCards = 0
+            var medHighCards = 0
+            var medLowCards = 0
+            var lowCards = 0
+            for eachCard in self.players[currentPlayer].hand {
+                if eachCard.value >= 14 {
+                    aceCard++
+                }
+                if eachCard.value > 11 {
+                    highCards++
+                }
+                else if eachCard.value > 8 {
+                    medHighCards++
+                }
+                else if eachCard.value > 5 {
+                    medLowCards++
+                }
+                else {
+                    lowCards++
+                }
+            }
+            if highCards == 2 {
+                self.receiveBet(self.currentHighestBet + 1000, player: self.players[currentPlayer])
+            }
+            else if aceCard > 0 {
+                //check-or-call algorithm.
+                self.receiveBet(self.currentHighestBet, player: self.players[currentPlayer])
+            }
+            else if highCards == 1 {
+                if self.currentHighestBet < 50 {
+                    self.receiveBet(self.currentHighestBet, player: self.players[currentPlayer])
+                }
+                else {
+                    self.receiveFold(self.players[currentPlayer])
+                }
+            }
+            else {
+                if self.currentHighestBet == 0 {
+                    self.receiveBet(self.currentHighestBet, player: self.players[currentPlayer])
+                }
+                else {
+                    self.receiveFold(self.players[currentPlayer])
+                }
+            }
+        }
     }
     func receiveFold(player: Player) {
         player.folded = true
@@ -352,10 +417,20 @@ class GameController {
         for eachPlayer in winnerList {
             self.winningPlayers.append(eachPlayer)
         }
-        for eachPlayer in self.winningPlayers {
-            var chipsToGive = self.potSize / self.winningPlayers.count
-            println("Player \(eachPlayer.seatNumber) wins \(chipsToGive) chips!")
-            eachPlayer.chips = eachPlayer.chips + chipsToGive
+        var chipsToGive = 0
+        var listOfPlayers = "Players "
+        for var i = 0; i < self.winningPlayers.count; i++ {
+            chipsToGive = self.potSize / self.winningPlayers.count
+//            println("Player \(eachPlayer.seatNumber) wins \(chipsToGive) chips!")
+                listOfPlayers = listOfPlayers + "\(self.winningPlayers[i].seatNumber), "
+            self.winningPlayers[i].chips = self.winningPlayers[i].chips + chipsToGive
+        }
+        listOfPlayers = listOfPlayers + "each win \(chipsToGive) chips!"
+        if self.winningPlayers.count == 1 {
+            holdemViewController.handLabel.text = "Player \(self.winningPlayers[0].seatNumber) wins \(chipsToGive) chips!"
+        }
+        else {
+            holdemViewController.handLabel.text = listOfPlayers
         }
         //reset the list, and pot.
         for eachPlayer in self.winningPlayers {
@@ -500,15 +575,20 @@ class GameController {
             }
         }
         self.calculateLeader()
+        //first, re-set the cards.
+        holdemViewController.outsCards = [Card]()
         for eachPlayer in playersInHand {
             if eachPlayer.isLeading == false {
                 println("Player \(eachPlayer.seatNumber) has \(eachPlayer.outs.count) outs:")
                 for eachCard2 in eachPlayer.outs {
+                    //add to first outs list:
+                    holdemViewController.outsCards.append(eachCard2)
                     print("\(eachCard2.valueDisplay)\(eachCard2.suit) ")
                 }
                 println()
             }
         }
+        holdemViewController.collectionView.reloadData()
         println("There are \(outsForTie.count) outs for TIE.")
         if outsForTie.count < 23 && outsForTie.count > 0 {
             for eachCard in outsForTie {
@@ -584,8 +664,10 @@ class GameController {
         }
         for eachPlayer in winnerList {
             if winnerList.count > 1 {
-                if eachPlayer.isLeading == true {
-                    eachPlayer.isLeading = false
+                if let leadCheck = eachPlayer.isLeading {
+                    if eachPlayer.isLeading == true {
+                        eachPlayer.isLeading = false
+                    }
                 }
             }
         }

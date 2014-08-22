@@ -8,10 +8,10 @@
 
 import UIKit
 
-var faceDownImage = UIImage(named: "Barbie.jpg")
+var faceDownImage = UIImage(named: "BlankSpace.jpg")
 var holdemDeck = DeckOfCards()
 var handStage = 0
-class HoldemViewController: UIViewController, GameControllerDelegate,UITextFieldDelegate {
+class HoldemViewController: UIViewController, GameControllerDelegate,UITextFieldDelegate, UICollectionViewDataSource {
     //represents holdem in the point of view of one player.
     //borrow from other classes:
     var handSorter = HandSorter()
@@ -41,6 +41,16 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     @IBOutlet var opponent22: CardImage!
     @IBOutlet var opponent31: CardImage!
     @IBOutlet var opponent32: CardImage!
+    @IBOutlet var opponent41: CardImage!
+    @IBOutlet var opponent42: CardImage!
+    @IBOutlet var opponent51: CardImage!
+    @IBOutlet var opponent52: CardImage!
+    
+    @IBOutlet var collectionView: UICollectionView!
+    var outsCards = [Card]()
+    @IBOutlet var outsLabel: UILabel!
+//    @IBOutlet var extraOuts: UICollectionView!
+    var tieCards = [Card]()
     
     var best5CardCombo = [Card]()
     
@@ -56,7 +66,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     @IBOutlet var handLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.collectionView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -108,6 +118,28 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 opponent32.hidden = true
             }
         }
+        if players.count > 4 {
+            let player = players[4]
+            if player.eliminated == false {
+                opponent41.currentCard = nil
+                opponent42.currentCard = nil
+            }
+            else {
+                opponent41.hidden = true
+                opponent42.hidden = true
+            }
+        }
+        if players.count > 5 {
+            let player = players[5]
+            if player.eliminated == false {
+                opponent51.currentCard = nil
+                opponent52.currentCard = nil
+            }
+            else {
+                opponent51.hidden = true
+                opponent52.hidden = true
+            }
+        }
         //so now the player cards are dealt.
     }
     
@@ -134,6 +166,8 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         var player0 = gameController.players[0]
         self.gameController.delegate = self
        
+        self.collectionView.dataSource = self
+//        self.extraOuts.dataSource = self
         //self.beginGame()
     }
     
@@ -166,7 +200,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         
         //game controller will deal the cards.
         //tell holdemcontroller to prompt user for bet.
-        self.handLabel.hidden = true
+//        self.handLabel.hidden = true
         self.gameController.setUpGame()
         self.gameController.dealCards()
         //player left of the button will act first
@@ -243,7 +277,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         }
         else {
             //so since it's a computer,
-            gameController.placeBetForComputer(100, player: gameController.players[gameController.currentPlayer])
+            gameController.placeBetForComputer()
         }
         
     }
@@ -253,6 +287,12 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     
     func beginAllIn() {
         //reveal opponent's cards:
+        var onlyPlayer = gameController.players[0]
+        if onlyPlayer.eliminated == false && onlyPlayer.folded == false {
+            player11.currentCard = onlyPlayer.hand[0]
+            player12.currentCard = onlyPlayer.hand[1]
+        }
+        
         var only2ndPlayer = gameController.players[1]
         if only2ndPlayer.eliminated == false && only2ndPlayer.folded == false {
             opponent11.currentCard = only2ndPlayer.hand[0]
@@ -270,6 +310,20 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             if player.eliminated == false && player.folded == false {
                 opponent31.currentCard = player.hand[0]
                 opponent32.currentCard = player.hand[1]
+            }
+        }
+        if gameController.players.count > 4 {
+            let player = gameController.players[4]
+            if player.eliminated == false && player.folded == false {
+                opponent41.currentCard = player.hand[0]
+                opponent42.currentCard = player.hand[1]
+            }
+        }
+        if gameController.players.count > 5 {
+            let player = gameController.players[5]
+            if player.eliminated == false && player.folded == false {
+                opponent51.currentCard = player.hand[0]
+                opponent52.currentCard = player.hand[1]
             }
         }
         //MISSING METHOD: reveal all cards.
@@ -343,6 +397,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         handStage = 4
         println("showdown")
         gameController.awardWinnerContested(true,falseWinner: gameController.players[0])
+        var timer1 = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
     }
     
     func evaluate5CardHand(var cardsToEvaluate: [Card]) -> [Card] {
@@ -404,7 +459,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             handRanking = 7
             if handRanking > self.bestHandType {
                 self.bestHandType = 7
-                self.handLabel.text = "Four of a Kind"
+//                self.handLabel.text = "Four of a Kind"
                 self.best5CardCombo = cardsToEvaluate
                 best5CardCombo = handSorter.sortQuads(best5CardCombo, quadValue: currentQuad)
             }
@@ -418,7 +473,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             handRanking = 6
             if handRanking > self.bestHandType {
                 self.bestHandType = 6
-                self.handLabel.text = "Full House"
+//                self.handLabel.text = "Full House"
                 self.best5CardCombo = cardsToEvaluate
                 best5CardCombo = handSorter.sortBoat(best5CardCombo, tripValue: currentTrip)
             }
@@ -431,7 +486,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             handRanking = 3
             if handRanking > self.bestHandType {
                 self.bestHandType = 3
-                self.handLabel.text = "Three of a Kind"
+//                self.handLabel.text = "Three of a Kind"
                 self.best5CardCombo = cardsToEvaluate
                 best5CardCombo = handSorter.sortTrips(best5CardCombo,tripValue: currentTrip)
             }
@@ -444,7 +499,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             handRanking = 2
             if handRanking > self.bestHandType {
                 self.bestHandType = 2
-                self.handLabel.text = "Two Pair"
+//                self.handLabel.text = "Two Pair"
                 self.best5CardCombo = cardsToEvaluate
                 var twoPairs = [Int]()
                 twoPairs.append(currentPairs[0].value)
@@ -463,7 +518,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             handRanking = 1
             if handRanking > self.bestHandType {
                 self.bestHandType = 1
-                self.handLabel.text = "One Pair"
+//                self.handLabel.text = "One Pair"
                 self.best5CardCombo = cardsToEvaluate
                 best5CardCombo = handSorter.sortOnePair(best5CardCombo,pairValue: currentPairs[0].value)
             }
@@ -517,10 +572,10 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 if handRanking > self.bestHandType {
                     self.bestHandType = 8
                     if cardsToEvaluate[0].value == 14 {
-                        self.handLabel.text = "Royal Flush"
+//                        self.handLabel.text = "Royal Flush"
                     }
                     else {
-                        self.handLabel.text = "Straight Flush"
+//                        self.handLabel.text = "Straight Flush"
                     }
                     self.best5CardCombo = cardsToEvaluate
                     //already been sorted
@@ -528,7 +583,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 else if handRanking == self.bestHandType {
                     self.best5CardCombo = handComparer.compareEach(best5CardCombo, hand2: cardsToEvaluate)
                     if cardsToEvaluate[0].value == 14 {
-                        self.handLabel.text = "Royal Flush"
+//                        self.handLabel.text = "Royal Flush"
                     }
                 }
             }
@@ -536,7 +591,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 handRanking = 5
                 if handRanking > self.bestHandType {
                     self.bestHandType = 5
-                    self.handLabel.text = "Flush"
+//                    self.handLabel.text = "Flush"
                     self.best5CardCombo = cardsToEvaluate
                 }
                 else if handRanking == self.bestHandType {
@@ -547,7 +602,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 handRanking = 4
                 if handRanking > self.bestHandType {
                     self.bestHandType = 4
-                    self.handLabel.text = "Straight"
+//                    self.handLabel.text = "Straight"
                     self.best5CardCombo = cardsToEvaluate
                 }
                 else if handRanking == self.bestHandType {
@@ -557,12 +612,12 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             else {
                 if handRanking == 0 && self.bestHandType == 0 {
                     self.best5CardCombo = handComparer.compareEach(best5CardCombo, hand2: cardsToEvaluate)
-                    self.handLabel.text = "Nothing"
+//                    self.handLabel.text = "Nothing"
                 }
             }
         }
         
-        self.handLabel.hidden = false
+//        self.handLabel.hidden = false
         //return self.handLabel.text
         return cardsToEvaluate
         //add new parameters.
@@ -594,6 +649,14 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 }
             }
             evaluate6CardHand(cardsToEvaluate6)
+        }
+    }
+    
+    func flipCard(cardView : UIImageView) {
+        UIView.transitionWithView(cardView, duration: 0.2, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: { () -> Void in
+            
+            }) { (success : Bool) -> Void in
+                
         }
     }
     
@@ -683,14 +746,6 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
 //                }
             }
             self.evaluateFullHand(cardsUsed)
-            //highlight the cards used:
-            for eachImage in cardImages {
-                for eachUsed in best5CardCombo {
-                    if (eachImage.currentCard.value == eachUsed.value) && (eachImage.currentCard.suit == eachUsed.suit) {
-                        eachImage.layer.borderColor = UIColor.redColor().CGColor
-                    }
-                }
-            }
             // ADDED TUES
             if !self.allInMode {
                 gameController.beginBetRound()
@@ -716,6 +771,24 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     @IBAction func dealNextPressed(sender: AnyObject) {
         self.dealNext()
         
+    }
+    
+    func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
+        return outsCards.count
+    }
+    
+    func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell", forIndexPath: indexPath) as CardCell
+        
+        cell.imageView1.layer.borderWidth = 1
+        cell.imageView1.layer.borderColor = UIColor.greenColor().CGColor
+//        cell.imageView1.currentCard = outsCards[indexPath.item]
+        cell.layoutMargins.right = 0
+        cell.imageView1.image = UIImage(named: "\(outsCards[indexPath.item].valueDisplay)\(outsCards[indexPath.item].suitName).jpg")
+        self.flipCard(cell.imageView1)
+        
+        
+        return cell
     }
 
 }

@@ -26,7 +26,7 @@ class ViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDeleg
         println("pressed")
         
                 var holdemView = self.storyboard.instantiateViewControllerWithIdentifier("holdemView") as HoldemViewController
-        if self.navigationController {
+        if (self.navigationController != nil) {
             self.navigationController.pushViewController(holdemView, animated: true)
         }
     }

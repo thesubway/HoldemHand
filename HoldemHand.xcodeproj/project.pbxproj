@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D45AFC219A15DDE00A3145B /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D45AFC119A15DDD00A3145B /* CardCell.swift */; };
+		6D45AFC419A15E6900A3145B /* CardExtraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D45AFC319A15E6900A3145B /* CardExtraCell.swift */; };
 		6DDEEFD5199707530072620F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEEFD4199707530072620F /* AppDelegate.swift */; };
 		6DDEEFD7199707530072620F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEEFD6199707530072620F /* ViewController.swift */; };
 		6DDEEFDA199707530072620F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DDEEFD8199707530072620F /* Main.storyboard */; };
@@ -89,6 +91,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6D45AFC119A15DDD00A3145B /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
+		6D45AFC319A15E6900A3145B /* CardExtraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardExtraCell.swift; sourceTree = "<group>"; };
 		6DDEEFCF199707530072620F /* HoldemHand.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoldemHand.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DDEEFD3199707530072620F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DDEEFD4199707530072620F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -185,6 +189,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D45AFC619A1657A00A3145B /* outs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = outs;
+			sourceTree = "<group>";
+		};
 		6DDEEFC6199707530072620F = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +203,7 @@
 				6DDEF0621997108E0072620F /* BlankSpace.jpg */,
 				6DDEF05E19970BE10072620F /* Barbie.jpg */,
 				6DDEF05A199708820072620F /* CardGame.swift */,
+				6D45AFC619A1657A00A3145B /* outs */,
 				6DDEEFF1199708490072620F /* playing cards */,
 				6DDEEFD1199707530072620F /* HoldemHand */,
 				6DDEEFE4199707540072620F /* HoldemHandTests */,
@@ -213,6 +225,8 @@
 			children = (
 				6DDEEFD4199707530072620F /* AppDelegate.swift */,
 				6DDEF06019970DAB0072620F /* CardImage.swift */,
+				6D45AFC119A15DDD00A3145B /* CardCell.swift */,
+				6D45AFC319A15E6900A3145B /* CardExtraCell.swift */,
 				6DEDDE37199AF88E0091D2D9 /* HoldemRound.swift */,
 				6DEDDE2D19991EDD0091D2D9 /* HandSorter.swift */,
 				6DEDDE2F199964420091D2D9 /* HandComparer.swift */,
@@ -475,6 +489,7 @@
 			files = (
 				6DDEEFD7199707530072620F /* ViewController.swift in Sources */,
 				6DEDDE30199964420091D2D9 /* HandComparer.swift in Sources */,
+				6D45AFC419A15E6900A3145B /* CardExtraCell.swift in Sources */,
 				6DDEF06119970DAB0072620F /* CardImage.swift in Sources */,
 				6DDEF05D199709E30072620F /* HoldemViewController.swift in Sources */,
 				6DDEEFD5199707530072620F /* AppDelegate.swift in Sources */,
@@ -484,6 +499,7 @@
 				6DDEF05B199708820072620F /* CardGame.swift in Sources */,
 				6DEDDE36199ADCFE0091D2D9 /* GameKitHelper.m in Sources */,
 				6DEDDE2E19991EDD0091D2D9 /* HandSorter.swift in Sources */,
+				6D45AFC219A15DDE00A3145B /* CardCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

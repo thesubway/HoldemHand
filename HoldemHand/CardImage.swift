@@ -26,6 +26,7 @@ import UIKit
             if currentCard != nil {
 //            println("card has been set to \(currentCard.valueDisplay) of \(currentCard.suitName)")
             self.image = UIImage(named: "\(currentCard.valueDisplay)\(currentCard.suitName).jpg")
+            self.flipCard(self)
             }
             else {
 //                println("card has been set to nil.")
@@ -52,7 +53,13 @@ import UIKit
         }
     }
     
-    
+    func flipCard(cardView : UIImageView) {
+        UIView.transitionWithView(cardView, duration: 0.2, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: { () -> Void in
+            
+            }) { (success : Bool) -> Void in
+                
+        }
+    }
     //take care of the hidden features later
 
 }
