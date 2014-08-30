@@ -24,9 +24,8 @@ import UIKit
             //Card.suit refers to just the first letter
             //valueDisplay, because then the 10 must be T.
             if currentCard != nil {
-//            println("card has been set to \(currentCard.valueDisplay) of \(currentCard.suitName)")
+            println("card has been set to \(currentCard.valueDisplay) of \(currentCard.suitName)")
             self.image = UIImage(named: "\(currentCard.valueDisplay)\(currentCard.suitName).jpg")
-            self.flipCard(self)
             }
             else {
 //                println("card has been set to nil.")

@@ -46,9 +46,17 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     @IBOutlet var opponent51: CardImage!
     @IBOutlet var opponent52: CardImage!
     
+    @IBOutlet var betView: UIView!
+    
+    @IBOutlet var viewOfColView: UIView!
     @IBOutlet var collectionView: UICollectionView!
     var outsCards = [Card]()
     @IBOutlet var outsLabel: UILabel!
+    
+    @IBOutlet var checkCallButton: UIButton!
+    @IBOutlet var betButton: UIButton!
+    @IBOutlet var foldButton: UIButton!
+    
 //    @IBOutlet var extraOuts: UICollectionView!
     var tieCards = [Card]()
     
@@ -143,6 +151,19 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         //so now the player cards are dealt.
     }
     
+    func hideButtons(hideThem: Bool) {
+        if hideThem == true {
+            self.checkCallButton.hidden = true
+            self.betButton.hidden = true
+            self.foldButton.hidden = true
+        }
+        else {
+            self.checkCallButton.hidden = false
+            self.betButton.hidden = false
+            self.foldButton.hidden = false
+        }
+    }
+    
     func updateCommunityCards(cards: [Card], forStage: Int) {
     }
     
@@ -173,6 +194,10 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.collectionView.hidden = true
+        self.betView.hidden = false
+//        self.viewOfColView.hidden = true
+        
         self.setupBetActionController()
         self.setupBetAlertController()
         self.beginGame()
@@ -265,15 +290,14 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     //name of func to be changed to beginBettingRound:
     func beginPlayersTurn() {
         //to create a loop for this.
-        
         if !gameController.players[gameController.currentPlayer].isComputer {
             self.betActionController.title = "Player \(gameController.currentPlayer), place your bet"
-            if self.betActionController.popoverPresentationController != nil {
-                
-            self.betActionController.popoverPresentationController.sourceView = self.flop1
-              //self.betActionController.popoverPresentationController.sourceView = self.flop1
-            }
-            self.presentViewController(self.betActionController, animated: true, completion: nil)
+            //allow user to make bet:
+            self.hideButtons(false)
+//            if self.betActionController.popoverPresentationController != nil {
+//            self.betActionController.popoverPresentationController.sourceView = self.flop1
+//            }
+//            self.presentViewController(self.betActionController, animated: true, completion: nil)
         }
         else {
             //so since it's a computer,
@@ -326,24 +350,27 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 opponent52.currentCard = player.hand[1]
             }
         }
+        //
+        self.betView.hidden = true
+        self.collectionView.hidden = false
         //MISSING METHOD: reveal all cards.
         if handStage == 0 {
-            var timer1 = NSTimer.scheduledTimerWithTimeInterval(14, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer2 = NSTimer.scheduledTimerWithTimeInterval(35, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(70, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer4 = NSTimer.scheduledTimerWithTimeInterval(72, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer5 = NSTimer.scheduledTimerWithTimeInterval(74, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
+            var timer1 = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer2 = NSTimer.scheduledTimerWithTimeInterval(7, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer3 = NSTimer.scheduledTimerWithTimeInterval(21, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer4 = NSTimer.scheduledTimerWithTimeInterval(23, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer5 = NSTimer.scheduledTimerWithTimeInterval(25, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
         }
         else if handStage == 1 {
-            var timer1 = NSTimer.scheduledTimerWithTimeInterval(20, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer2 = NSTimer.scheduledTimerWithTimeInterval(55, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(57, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer4 = NSTimer.scheduledTimerWithTimeInterval(59, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
+            var timer1 = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer2 = NSTimer.scheduledTimerWithTimeInterval(19, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer3 = NSTimer.scheduledTimerWithTimeInterval(21, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer4 = NSTimer.scheduledTimerWithTimeInterval(23, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
         }
         else if handStage == 2 {
-            var timer1 = NSTimer.scheduledTimerWithTimeInterval(30, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer2 = NSTimer.scheduledTimerWithTimeInterval(32, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(34, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
+            var timer1 = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer2 = NSTimer.scheduledTimerWithTimeInterval(7, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer3 = NSTimer.scheduledTimerWithTimeInterval(9, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
         }
         
     }
@@ -663,8 +690,10 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     func dealNext() {
         var cardsUsed = [Card]()
         if handStage < 3 {
-            cardsUsed.append(player11.currentCard)
-            cardsUsed.append(player12.currentCard)
+            if gameController.players[0].eliminated == false {
+                cardsUsed.append(player11.currentCard)
+                cardsUsed.append(player12.currentCard)
+            }
         }
         if handStage == 0 {
             self.dealFlop()
@@ -681,7 +710,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
 //                    eachPlayer.handPlusBoard.removeLast()
 //                }
             }
-            self.evaluate5CardHand(cardsUsed)
+            if gameController.players[0].eliminated == false {
+                self.evaluate5CardHand(cardsUsed)
+            }
             // ADDED TUES
             //begin betting round, but for now call beginPlayersTurn.
             if !self.allInMode {
@@ -713,7 +744,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
 //                    eachPlayer.handPlusBoard.removeLast()
 //                }
             }
-            self.evaluate6CardHand(cardsUsed)
+            if gameController.players[0].eliminated == false {
+                self.evaluate6CardHand(cardsUsed)
+            }
             // ADDED TUES
             if !self.allInMode {
                 gameController.beginBetRound()
@@ -745,7 +778,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
 //                    eachPlayer.handPlusBoard.removeLast()
 //                }
             }
-            self.evaluateFullHand(cardsUsed)
+            if gameController.players[0].eliminated == false {
+                self.evaluateFullHand(cardsUsed)
+            }
             // ADDED TUES
             if !self.allInMode {
                 gameController.beginBetRound()
@@ -756,11 +791,30 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         else if handStage == 3 {
             //end the round.
             self.showDown()
+            if self.allInMode == true {
+                self.collectionView.hidden = true
+                self.betView.hidden = false
+            }
         }
         else {
             self.endRound()
         }
     }
+    @IBAction func checkCallPressed(sender: AnyObject) {
+        self.gameController.receiveBet(self.gameController.currentHighestBet, player: self.gameController.players[self.gameController.currentPlayer])
+        self.hideButtons(true)
+    }
+    
+    @IBAction func betRaisePressed(sender: AnyObject) {
+        self.presentViewController(self.betAlertController, animated: true, completion: nil)
+        self.hideButtons(true)
+    }
+    
+    @IBAction func foldPressed(sender: AnyObject) {
+    self.gameController.receiveFold(self.gameController.players[self.gameController.currentPlayer])
+        self.hideButtons(true)
+    }
+    
     
     @IBAction func BeginPressed(sender: AnyObject) {
         //begin while-loop.
