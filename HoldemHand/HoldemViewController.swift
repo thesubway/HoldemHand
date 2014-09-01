@@ -11,13 +11,13 @@ import UIKit
 var faceDownImage = UIImage(named: "BlankSpace.jpg")
 var holdemDeck = DeckOfCards()
 var handStage = 0
-class HoldemViewController: UIViewController, GameControllerDelegate,UITextFieldDelegate, UICollectionViewDataSource {
+class HoldemViewController: UIViewController, GameControllerDelegate,UITextFieldDelegate, UICollectionViewDataSource, UITableViewDataSource, UITableViewDelegate {
     //represents holdem in the point of view of one player.
     //borrow from other classes:
     var handSorter = HandSorter()
     var handComparer = HandComparer()
     //default:
-    var gameController = GameController(startingChips: 500, numPlayers: 6)
+    var gameController : GameController!
     var betActionController = UIAlertController(title: "Place your bet", message: "Choose an option", preferredStyle: UIAlertControllerStyle.ActionSheet)
     var betAlertController = UIAlertController(title: "Place your bet", message: "Enter in your amount", preferredStyle: UIAlertControllerStyle.Alert)
     var currentPlayer : Player!
@@ -46,8 +46,18 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     @IBOutlet var opponent51: CardImage!
     @IBOutlet var opponent52: CardImage!
     
+    @IBOutlet var player1View: PlayerView!
+    @IBOutlet var opponent1View: PlayerView!
+    @IBOutlet var opponent2View: PlayerView!
+    @IBOutlet var opponent3View: PlayerView!
+    @IBOutlet var opponent4View: PlayerView!
+    @IBOutlet var opponent5View: PlayerView!
+    var playerViews = [PlayerView]()
+    
     @IBOutlet var betView: UIView!
     
+    
+    @IBOutlet var tableView: UITableView!
     @IBOutlet var viewOfColView: UIView!
     @IBOutlet var collectionView: UICollectionView!
     var outsCards = [Card]()
@@ -74,6 +84,11 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     @IBOutlet var handLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        //add the cardViews onto the playerViews:
+        
+        //add all the playerViews into an array:
+        self.playerViews.append(self.player1View);self.playerViews.append(self.opponent1View);self.playerViews.append(self.opponent2View);playerViews.append(self.opponent3View);playerViews.append(self.opponent4View);playerViews.append(self.opponent5View);
+        self.gameController = GameController(startingChips: 500, numPlayers: 6)
         self.collectionView.reloadData()
     }
     
@@ -92,8 +107,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             player12.currentCard = onlyPlayer.hand[1]
         }
         else {
-            player11.hidden = true
-            player12.hidden = true
+            self.player1View.hidden = true
         }
         var only2ndPlayer = players[1]
         if only2ndPlayer.eliminated == false {
@@ -101,8 +115,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             opponent12.currentCard = nil
         }
         else {
-            opponent11.hidden = true
-            opponent12.hidden = true
+            self.opponent1View.hidden = true
         }
         if players.count > 2 {
             let player = players[2]
@@ -111,8 +124,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 opponent22.currentCard = nil
             }
             else {
-                opponent21.hidden = true
-                opponent22.hidden = true
+                self.opponent2View.hidden = true
             }
         }
         if players.count > 3 {
@@ -122,8 +134,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 opponent32.currentCard = nil
             }
             else {
-                opponent31.hidden = true
-                opponent32.hidden = true
+                self.opponent3View.hidden = true
             }
         }
         if players.count > 4 {
@@ -133,8 +144,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 opponent42.currentCard = nil
             }
             else {
-                opponent41.hidden = true
-                opponent42.hidden = true
+                self.opponent4View.hidden = true
             }
         }
         if players.count > 5 {
@@ -144,8 +154,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 opponent52.currentCard = nil
             }
             else {
-                opponent51.hidden = true
-                opponent52.hidden = true
+                self.opponent5View.hidden = true
             }
         }
         //so now the player cards are dealt.
@@ -170,6 +179,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     override func viewWillAppear(animated: Bool) {
         println("appeared")
         gameController.holdemViewController = self
+        for eachPlayer in gameController.players {
+            eachPlayer.selfView = self.playerViews[eachPlayer.seatNumber]
+        }
         //betAlertController.add
         cardImages.append(player11)
         cardImages.append(player12)
@@ -187,6 +199,8 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         var player0 = gameController.players[0]
         self.gameController.delegate = self
        
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         self.collectionView.dataSource = self
 //        self.extraOuts.dataSource = self
         //self.beginGame()
@@ -218,6 +232,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             eachPlayer.best5CardCombo = [Card]()
             best5CardCombo = [Card]()
         }
+        //all cards are visible ():
         
         for eachCard in self.cardImages {
             eachCard.currentCard = nil
@@ -294,6 +309,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             self.betActionController.title = "Player \(gameController.currentPlayer), place your bet"
             //allow user to make bet:
             self.hideButtons(false)
+            println()
 //            if self.betActionController.popoverPresentationController != nil {
 //            self.betActionController.popoverPresentationController.sourceView = self.flop1
 //            }
@@ -827,13 +843,38 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         
     }
     
+    func scrollToBottom() {
+    
+        self.tableView.scrollRectToVisible(CGRectMake(0,self.tableView.contentSize.height - self.tableView.bounds.size.height, self.tableView.bounds.size.width, self.tableView.bounds.size.height), animated: true)
+    
+    }
+    
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        if gameController.currentPlayer == 0 {
+            self.hideButtons(false)
+        }
+    }
+    
+    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        return gameController.gameSummary.count
+    }
+    
+    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+        let cell = tableView.dequeueReusableCellWithIdentifier("summaryCell") as UITableViewCell
+        cell.textLabel.font = UIFont(name: cell.textLabel.font.fontName, size: 8)
+        cell.textLabel.text = gameController.gameSummary[indexPath.row]
+        self.scrollToBottom()
+        return cell
+    }
+    
     func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
         return outsCards.count
     }
     
     func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell", forIndexPath: indexPath) as CardCell
-        
+//        NSIndexPath* ipath = [NSIndexPath indexPathForRow: cells_count-1 inSection: sections_count-1];
+//        [tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: YES];
         cell.imageView1.layer.borderWidth = 1
         cell.imageView1.layer.borderColor = UIColor.greenColor().CGColor
 //        cell.imageView1.currentCard = outsCards[indexPath.item]

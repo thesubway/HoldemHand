@@ -27,11 +27,13 @@ class Player {
     var isLeading : Bool! //applies to all-ins. False if tie.
     
     var isComputer : Bool!
-    var seatNumber : Int!
+    @IBInspectable var seatNumber : Int!
     //taken from HoldemView:
     var handSorter = HandSorter()
     var handComparer = HandComparer()
     var bestHandType = 0
+    
+    var selfView : UIView!
     // reps self.textView.text in HoldemView
     var handName = ""
     init(isComputer: Bool, seatNumber: Int) {

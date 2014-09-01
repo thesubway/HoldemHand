@@ -28,6 +28,8 @@ class GameController {
     var players = [Player]()
     var delegate : GameControllerDelegate!
     var currentHighestBet = 0
+    
+    var gameSummary = [String]()
     @IBInspectable var dealerButton : Int! {
         //be sure it skips the eliminated players.
         didSet {
@@ -172,31 +174,31 @@ class GameController {
         player.betForRound = betAmount
         if player.folded == true {
             holdemViewController.handLabel.text = "Player \(player.seatNumber) folds"
-            println("Player \(player.seatNumber) folds")
+            gameSummary.append("Player \(player.seatNumber) folds")
         }
         else if betAmount == 0 {
             holdemViewController.handLabel.text = "Player \(player.seatNumber) checks."
-            println("Player \(player.seatNumber) folds")
+            gameSummary.append("Player \(player.seatNumber) checks.")
         }
         if player.betForRound > self.currentHighestBet {
             if self.currentHighestBet == 0 {
                 //so it's a bet.
                 if player.isAllIn == false {
                     holdemViewController.handLabel.text = "Player \(player.seatNumber) bets \(betAmount) chips"
-                    println("Player \(player.seatNumber) bets \(betAmount) chips")
+                    gameSummary.append("Player \(player.seatNumber) bets \(betAmount) chips")
                 }
                 else {
                     holdemViewController.handLabel.text = "Player \(player.seatNumber) bets \(betAmount) chips"
-                    println("Player \(player.seatNumber) bets \(betAmount) chips")
+                    gameSummary.append("Player \(player.seatNumber) bets \(betAmount) chips")
                 }
             }
             else {
                 if player.isAllIn == false {
-                    println("Player \(player.seatNumber) raises to \(betAmount)")
+                    gameSummary.append("Player \(player.seatNumber) raises to \(betAmount)")
                     holdemViewController.handLabel.text = "Player \(player.seatNumber) raises to \(betAmount)"
                 }
                 else {
-                    println("Player \(player.seatNumber) raises ALL-IN for \(betAmount)")
+                    gameSummary.append("Player \(player.seatNumber) raises ALL-IN for \(betAmount)")
                     holdemViewController.handLabel.text = "Player \(player.seatNumber) raises ALL-IN for \(betAmount)"
                 }
             }
@@ -209,13 +211,16 @@ class GameController {
             if self.currentHighestBet > 0 {
                 //That means he calls.
                 if player.isAllIn == false {
+                    gameSummary.append("Player \(player.seatNumber) calls \(betAmount)")
                     holdemViewController.handLabel.text = "Player \(player.seatNumber) calls \(betAmount)"
                 }
                 else {
+                    gameSummary.append("Player \(player.seatNumber) calls ALL-IN for \(betAmount)")
                     holdemViewController.handLabel.text = "Player \(player.seatNumber) calls ALL-IN for \(betAmount)"
                 }
             }
         }
+        holdemViewController.tableView.reloadData()
         //check if round is over.
         if player.seatNumber != lastPlayerToAct {
             //this begins the next player's turn:
@@ -242,7 +247,8 @@ class GameController {
             //place the bet.
             
             //end the betting round somehow:
-            println("round has ended.")
+            gameSummary.append("betting round has ended.")
+            holdemViewController.tableView.reloadData()
             //subtract all player's chips.
             for eachPlayer in self.players {
                 self.potSize += eachPlayer.betForRound
@@ -333,6 +339,7 @@ class GameController {
     func receiveFold(player: Player) {
         player.folded = true
         player.isLive = false
+        //now their cards are gone:
         var playersIn = [Player]()
         var numPlayersLive = 0
         //now go through a series of checkings:
