@@ -25,9 +25,9 @@ class ViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDeleg
         
         println("pressed")
         
-                var holdemView = self.storyboard.instantiateViewControllerWithIdentifier("holdemView") as HoldemViewController
+                var holdemView = self.storyboard!.instantiateViewControllerWithIdentifier("holdemView") as HoldemViewController
         if (self.navigationController != nil) {
-            self.navigationController.pushViewController(holdemView, animated: true)
+            self.navigationController!.pushViewController(holdemView, animated: true)
         }
     }
 
@@ -134,11 +134,11 @@ class ViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDeleg
         self.dismissViewControllerAnimated(true, completion: nil)
         //now pass reference of match onto game view controller.
 
-        var holdemView = self.storyboard.instantiateViewControllerWithIdentifier("holdemView") as HoldemViewController
+        var holdemView = self.storyboard!.instantiateViewControllerWithIdentifier("holdemView") as HoldemViewController
         
         holdemView.gameController.match = match
         if self.navigationController != nil {
-            self.navigationController.pushViewController(holdemView, animated: true)
+            self.navigationController!.pushViewController(holdemView, animated: true)
         }
     }
     

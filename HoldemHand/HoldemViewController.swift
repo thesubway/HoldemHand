@@ -88,6 +88,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         
         //add all the playerViews into an array:
         self.playerViews.append(self.player1View);self.playerViews.append(self.opponent1View);self.playerViews.append(self.opponent2View);playerViews.append(self.opponent3View);playerViews.append(self.opponent4View);playerViews.append(self.opponent5View);
+        for eachPlayerView in playerViews {
+//            eachPlayerView.initializeSelf()
+        }
         self.gameController = GameController(startingChips: 500, numPlayers: 6)
         self.collectionView.reloadData()
     }
@@ -855,23 +858,24 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         }
     }
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return gameController.gameSummary.count
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("summaryCell") as UITableViewCell
-        cell.textLabel.font = UIFont(name: cell.textLabel.font.fontName, size: 8)
-        cell.textLabel.text = gameController.gameSummary[indexPath.row]
+        cell.textLabel!.font = UIFont(name: cell.textLabel!.font.fontName, size: 8)
+        cell.textLabel!.text = gameController.gameSummary[indexPath.row]
         self.scrollToBottom()
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return outsCards.count
     }
     
-    func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell", forIndexPath: indexPath) as CardCell
 //        NSIndexPath* ipath = [NSIndexPath indexPathForRow: cells_count-1 inSection: sections_count-1];
 //        [tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: YES];

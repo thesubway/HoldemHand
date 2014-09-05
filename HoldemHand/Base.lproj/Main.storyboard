@@ -1120,7 +1120,8 @@
                                                         <exclude reference="v2L-N4-Gox"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=compact-widthClass=compact">
+                                                <variation key="heightClass=compact-widthClass=compact" misplaced="YES">
+                                                    <rect key="frame" x="4" y="8" width="50" height="63"/>
                                                     <mask key="constraints">
                                                         <include reference="1Sb-vy-q3Q"/>
                                                         <include reference="NDx-LS-6hn"/>
