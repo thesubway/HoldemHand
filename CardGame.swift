@@ -66,6 +66,7 @@ class UnshuffledDeck {
 class Card {
     //these values will change
     var valueName = ""
+    var valuePlural = ""
     var valueDisplay = ""
     var suitName = ""
     var value = 0
@@ -77,25 +78,32 @@ class Card {
         case 10:
             valueName = "10"
             valueDisplay = "T"
+            valuePlural = "10's"
         case 11:
             valueName = "Jack"
             valueDisplay = "J"
+            valuePlural = "Jacks"
         case 12:
             valueName = "Queen"
             valueDisplay = "Q"
+            valuePlural = "Queens"
         case 13:
             valueName = "King"
             valueDisplay = "K"
+            valuePlural = "Kings"
         case 14:
             valueName = "Ace"
             valueDisplay = "A"
+            valuePlural = "Aces"
         case 1:
             valueName = "Ace"
             valueDisplay = "A"
+            valuePlural = "Aces"
             //else, the card will display its current number
         default:
             valueName = "\(value)"
             valueDisplay = "\(value)"
+            valuePlural = "\(value)'s"
         }
         switch suit {
         case "c":

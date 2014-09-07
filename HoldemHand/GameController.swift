@@ -28,6 +28,8 @@ class GameController {
     var players = [Player]()
     var delegate : GameControllerDelegate!
     var currentHighestBet = 0
+    var placingBlinds = false
+    var blindAmount = 10
     
     var gameSummary = [String]()
     @IBInspectable var dealerButton : Int! {
@@ -129,10 +131,6 @@ class GameController {
     }
     func rotatePlayerRoles() {
         self.dealerButton = (self.dealerButton + 1) % self.players.count
-//        self.smallBlind++
-//        self.bigBlind++
-        //in case it passes
-        
     }
     func beginBetRound() {
         self.currentHighestBet = 0
@@ -159,6 +157,14 @@ class GameController {
         }
         //in case those set players are not live:
         self.currentPlayer = firstPlayerToAct
+        //place blinds, and notify the receiveBet that this is the case:
+        if self.isPreFlop == true {
+            self.placingBlinds = true
+            self.receiveBet(self.blindAmount / 2, player: self.players[self.smallBlind])
+            self.receiveBet(self.blindAmount, player: self.players[self.bigBlind])
+            self.placingBlinds = false
+        }
+
         //once bet round ends, set isPreFlop = false, regardless of round.
     }
     func placeBetForPlayer(amount: Int, player: Player) {
@@ -172,34 +178,49 @@ class GameController {
             self.receiveAllIn(player)
         }
         player.betForRound = betAmount
+        //next, check if this is setting of blinds:
+        if self.placingBlinds == true {
+            self.currentHighestBet = amount
+            if player.isAllIn == true {
+                gameSummary.append("Player \(player.seatNumber) blind ALL-IN for \(amount)")
+                player.selfView.betLabel.text = "Blind ALL-IN \(amount)"
+            }
+            else {
+                gameSummary.append("Player \(player.seatNumber) blind \(amount)")
+                player.selfView.betLabel.text = "Blind \(amount)"
+            }
+            holdemViewController.tableView.reloadData()
+            holdemViewController.scrollToBottom()
+            return
+        }
         if player.folded == true {
-            holdemViewController.handLabel.text = "Player \(player.seatNumber) folds"
+            player.selfView.betLabel.text = "Fold"
             gameSummary.append("Player \(player.seatNumber) folds")
         }
         else if betAmount == 0 {
-            holdemViewController.handLabel.text = "Player \(player.seatNumber) checks."
+            player.selfView.betLabel.text = "Check"
             gameSummary.append("Player \(player.seatNumber) checks.")
         }
         if player.betForRound > self.currentHighestBet {
             if self.currentHighestBet == 0 {
                 //so it's a bet.
                 if player.isAllIn == false {
-                    holdemViewController.handLabel.text = "Player \(player.seatNumber) bets \(betAmount) chips"
+                    player.selfView.betLabel.text = "Bet \(betAmount)"
                     gameSummary.append("Player \(player.seatNumber) bets \(betAmount) chips")
                 }
                 else {
-                    holdemViewController.handLabel.text = "Player \(player.seatNumber) bets \(betAmount) chips"
-                    gameSummary.append("Player \(player.seatNumber) bets \(betAmount) chips")
+                    player.selfView.betLabel.text = "Bet ALL-IN \(betAmount)"
+                    gameSummary.append("Player \(player.seatNumber) bets ALL-IN for \(betAmount) chips")
                 }
             }
             else {
                 if player.isAllIn == false {
                     gameSummary.append("Player \(player.seatNumber) raises to \(betAmount)")
-                    holdemViewController.handLabel.text = "Player \(player.seatNumber) raises to \(betAmount)"
+                    player.selfView.betLabel.text = "Raise to \(betAmount)"
                 }
                 else {
                     gameSummary.append("Player \(player.seatNumber) raises ALL-IN for \(betAmount)")
-                    holdemViewController.handLabel.text = "Player \(player.seatNumber) raises ALL-IN for \(betAmount)"
+                    player.selfView.betLabel.text = "Raise ALL-IN \(betAmount)"
                 }
             }
             self.currentHighestBet = player.betForRound
@@ -211,16 +232,29 @@ class GameController {
             if self.currentHighestBet > 0 {
                 //That means he calls.
                 if player.isAllIn == false {
-                    gameSummary.append("Player \(player.seatNumber) calls \(betAmount)")
-                    holdemViewController.handLabel.text = "Player \(player.seatNumber) calls \(betAmount)"
+                    //in case player folds big blind, with option-check possible:
+                    if self.isPreFlop == true && player.seatNumber == self.bigBlind {
+                        if self.blindAmount == self.currentHighestBet {
+                            if player.folded == false {
+                                gameSummary.append("Player \(player.seatNumber) option-checks")
+                                player.selfView.betLabel.text = "Option-Check"
+                            }
+                        }
+                    }
+                    else {
+                        gameSummary.append("Player \(player.seatNumber) calls \(betAmount)")
+                        player.selfView.betLabel.text = "Call \(betAmount)"
+                    }
+                    
                 }
                 else {
                     gameSummary.append("Player \(player.seatNumber) calls ALL-IN for \(betAmount)")
-                    holdemViewController.handLabel.text = "Player \(player.seatNumber) calls ALL-IN for \(betAmount)"
+                    player.selfView.betLabel.text = "Call ALL-IN \(betAmount)"
                 }
             }
         }
         holdemViewController.tableView.reloadData()
+        holdemViewController.scrollToBottom()
         //check if round is over.
         if player.seatNumber != lastPlayerToAct {
             //this begins the next player's turn:
@@ -249,6 +283,7 @@ class GameController {
             //end the betting round somehow:
             gameSummary.append("betting round has ended.")
             holdemViewController.tableView.reloadData()
+            holdemViewController.scrollToBottom()
             //subtract all player's chips.
             for eachPlayer in self.players {
                 self.potSize += eachPlayer.betForRound
@@ -279,6 +314,7 @@ class GameController {
         }
     }
     func placeBetForComputer() {
+        var compPlayer = self.players[currentPlayer]
         if self.players[currentPlayer].hand[0].value == self.players[currentPlayer].hand[1].value {
             if self.players[currentPlayer].hand[0].value <= 8 {
                 self.receiveBet((self.currentHighestBet + 5) * 2, player: self.players[currentPlayer])
@@ -319,7 +355,7 @@ class GameController {
                 self.receiveBet(self.currentHighestBet, player: self.players[currentPlayer])
             }
             else if highCards == 1 {
-                if self.currentHighestBet < 50 {
+                if self.currentHighestBet < (compPlayer.betForRound + 50) {
                     self.receiveBet(self.currentHighestBet, player: self.players[currentPlayer])
                 }
                 else {
@@ -327,7 +363,7 @@ class GameController {
                 }
             }
             else {
-                if self.currentHighestBet == 0 {
+                if self.currentHighestBet <= (compPlayer.betForRound) {
                     self.receiveBet(self.currentHighestBet, player: self.players[currentPlayer])
                 }
                 else {
@@ -387,6 +423,8 @@ class GameController {
     func receiveAllIn(player: Player) {
         player.isAllIn = true
         player.isLive = false
+        //form a side-pot, detect how much can go into it:
+        
         //before setting who acts first, make sure there is a live player.
         var numLive = 0
         for eachPlayer in self.players {
@@ -433,11 +471,17 @@ class GameController {
             self.winningPlayers[i].chips = self.winningPlayers[i].chips + chipsToGive
         }
         listOfPlayers = listOfPlayers + "each win \(chipsToGive) chips!"
-        if self.winningPlayers.count == 1 {
-            holdemViewController.handLabel.text = "Player \(self.winningPlayers[0].seatNumber) wins \(chipsToGive) chips!"
-        }
-        else {
-            holdemViewController.handLabel.text = listOfPlayers
+//        if self.winningPlayers.count == 1 {
+//            holdemViewController.handLabel.text = "Player \(self.winningPlayers[0].seatNumber) wins \(chipsToGive) chips!"
+//        }
+//        else {
+//            holdemViewController.handLabel.text = listOfPlayers
+//        }
+        if contested == true {
+            //don't show if everyone folds.
+            holdemViewController.revealCards()
+            holdemViewController.handLabel.text = winnerList[0].handName
+            
         }
         //reset the list, and pot.
         for eachPlayer in self.winningPlayers {
@@ -596,6 +640,7 @@ class GameController {
             }
         }
         holdemViewController.collectionView.reloadData()
+        holdemViewController.scrollToBottom()
         println("There are \(outsForTie.count) outs for TIE.")
         if outsForTie.count < 23 && outsForTie.count > 0 {
             for eachCard in outsForTie {

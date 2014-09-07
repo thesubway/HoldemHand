@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D211FA819BD0194002902E4 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D211FA719BD0194002902E4 /* BoardView.swift */; };
 		6D45AFC219A15DDE00A3145B /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D45AFC119A15DDD00A3145B /* CardCell.swift */; };
 		6D45AFC419A15E6900A3145B /* CardExtraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D45AFC319A15E6900A3145B /* CardExtraCell.swift */; };
 		6DAC068A19B3D7500091A82C /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAC068919B3D7500091A82C /* PlayerView.swift */; };
@@ -92,6 +93,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6D211FA719BD0194002902E4 /* BoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		6D45AFC119A15DDD00A3145B /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
 		6D45AFC319A15E6900A3145B /* CardExtraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardExtraCell.swift; sourceTree = "<group>"; };
 		6DAC068919B3D7500091A82C /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
@@ -234,9 +236,10 @@
 				6DEDDE2F199964420091D2D9 /* HandComparer.swift */,
 				6DDEEFD6199707530072620F /* ViewController.swift */,
 				6DDEF05C199709E30072620F /* HoldemViewController.swift */,
-				6DAC068919B3D7500091A82C /* PlayerView.swift */,
 				6DEDDE31199A884D0091D2D9 /* GameController.swift */,
 				6DDEF0641997FA140072620F /* Player.swift */,
+				6DAC068919B3D7500091A82C /* PlayerView.swift */,
+				6D211FA719BD0194002902E4 /* BoardView.swift */,
 				6DDEEFD8199707530072620F /* Main.storyboard */,
 				6DDEEFDB199707530072620F /* Images.xcassets */,
 				6DDEEFD2199707530072620F /* Supporting Files */,
@@ -502,6 +505,7 @@
 				6DDEF05B199708820072620F /* CardGame.swift in Sources */,
 				6DEDDE36199ADCFE0091D2D9 /* GameKitHelper.m in Sources */,
 				6DEDDE2E19991EDD0091D2D9 /* HandSorter.swift in Sources */,
+				6D211FA819BD0194002902E4 /* BoardView.swift in Sources */,
 				6D45AFC219A15DDE00A3145B /* CardCell.swift in Sources */,
 				6DAC068A19B3D7500091A82C /* PlayerView.swift in Sources */,
 			);

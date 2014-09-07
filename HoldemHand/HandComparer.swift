@@ -14,6 +14,36 @@ class HandComparer {
     init() {
         
     }
+    func handName(var hand: [Card], var handValue: Int) -> String {
+        var fiveCards = ""
+        for eachCard in hand {
+            fiveCards = "\(fiveCards)\(eachCard.valueDisplay)"
+        }
+        switch handValue {
+        case 8:
+            if hand[0].value == 14 {
+                return "Royal Flush"
+            }
+            return "Straight Flush \(fiveCards)"
+        case 7:
+            return "Four of a Kind \(fiveCards)"
+        case 6:
+            return "Full House \(fiveCards)"
+        case 5:
+            return "Flush \(fiveCards)"
+        case 4:
+            return "Straight \(fiveCards)"
+        case 3:
+            return "Three of a Kind \(fiveCards)"
+        case 2:
+            return "Two Pair \(fiveCards)"
+        case 1:
+            return "One Pair \(fiveCards)"
+        default:
+            return "High Card \(fiveCards)"
+        }
+    }
+    
     func cardsAreEqual(var card1: Card, var card2: Card) -> Bool {
         if card1.value != card2.value {
             return false
@@ -71,6 +101,8 @@ class HandComparer {
     }
     //takes array of hands, returns one hand.
     func compareMultipleHands(var allHands: [[Card]],var allValues: [Int]) -> [Card] {
+        for eachHand in allHands {
+        }
         var highestValue = 0
         var highestValueIndex = 0
         for var i = 0; i < allValues.count; i++ {

@@ -33,18 +33,6 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     @IBOutlet var flop3 : CardImage!
     @IBOutlet var turn : CardImage!
     @IBOutlet var river: CardImage!
-    @IBOutlet var player11: CardImage!
-    @IBOutlet var player12: CardImage!
-    @IBOutlet var opponent11: CardImage!
-    @IBOutlet var opponent12: CardImage!
-    @IBOutlet var opponent21: CardImage!
-    @IBOutlet var opponent22: CardImage!
-    @IBOutlet var opponent31: CardImage!
-    @IBOutlet var opponent32: CardImage!
-    @IBOutlet var opponent41: CardImage!
-    @IBOutlet var opponent42: CardImage!
-    @IBOutlet var opponent51: CardImage!
-    @IBOutlet var opponent52: CardImage!
     
     @IBOutlet var player1View: PlayerView!
     @IBOutlet var opponent1View: PlayerView!
@@ -58,6 +46,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var boardView: BoardView!
     @IBOutlet var viewOfColView: UIView!
     @IBOutlet var collectionView: UICollectionView!
     var outsCards = [Card]()
@@ -87,11 +76,15 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         //add the cardViews onto the playerViews:
         
         //add all the playerViews into an array:
-        self.playerViews.append(self.player1View);self.playerViews.append(self.opponent1View);self.playerViews.append(self.opponent2View);playerViews.append(self.opponent3View);playerViews.append(self.opponent4View);playerViews.append(self.opponent5View);
-        for eachPlayerView in playerViews {
+        
+//        for eachPlayerView in playerViews {
 //            eachPlayerView.initializeSelf()
-        }
+//        }
         self.gameController = GameController(startingChips: 500, numPlayers: 6)
+        self.playerViews.append(self.player1View);self.playerViews.append(self.opponent1View);self.playerViews.append(self.opponent2View);playerViews.append(self.opponent3View);playerViews.append(self.opponent4View);playerViews.append(self.opponent5View);
+        for i in 0..<self.gameController.players.count {
+            playerViews[i].initializeSelf(self.gameController.players[i])
+        }
         self.collectionView.reloadData()
     }
     
@@ -106,16 +99,16 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     func updatePlayersCards(players: [Player]) {
         var onlyPlayer = players[0]
         if onlyPlayer.eliminated == false {
-            player11.currentCard = onlyPlayer.hand[0]
-            player12.currentCard = onlyPlayer.hand[1]
+            player1View.cardView1.currentCard = onlyPlayer.hand[0]
+            player1View.cardView2.currentCard = onlyPlayer.hand[1]
         }
         else {
             self.player1View.hidden = true
         }
         var only2ndPlayer = players[1]
         if only2ndPlayer.eliminated == false {
-            opponent11.currentCard = nil
-            opponent12.currentCard = nil
+            opponent1View.cardView1.currentCard = nil
+            opponent1View.cardView2.currentCard = nil
         }
         else {
             self.opponent1View.hidden = true
@@ -123,8 +116,8 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         if players.count > 2 {
             let player = players[2]
             if player.eliminated == false {
-                opponent21.currentCard = nil
-                opponent22.currentCard = nil
+                opponent2View.cardView1.currentCard = nil
+                opponent2View.cardView2.currentCard = nil
             }
             else {
                 self.opponent2View.hidden = true
@@ -133,8 +126,8 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         if players.count > 3 {
             let player = players[3]
             if player.eliminated == false {
-                opponent31.currentCard = nil
-                opponent32.currentCard = nil
+                opponent3View.cardView1.currentCard = nil
+                opponent3View.cardView2.currentCard = nil
             }
             else {
                 self.opponent3View.hidden = true
@@ -143,8 +136,8 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         if players.count > 4 {
             let player = players[4]
             if player.eliminated == false {
-                opponent41.currentCard = nil
-                opponent42.currentCard = nil
+                opponent4View.cardView1.currentCard = nil
+                opponent4View.cardView2.currentCard = nil
             }
             else {
                 self.opponent4View.hidden = true
@@ -153,8 +146,8 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         if players.count > 5 {
             let player = players[5]
             if player.eliminated == false {
-                opponent51.currentCard = nil
-                opponent52.currentCard = nil
+                opponent5View.cardView1.currentCard = nil
+                opponent5View.cardView2.currentCard = nil
             }
             else {
                 self.opponent5View.hidden = true
@@ -186,18 +179,12 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             eachPlayer.selfView = self.playerViews[eachPlayer.seatNumber]
         }
         //betAlertController.add
-        cardImages.append(player11)
-        cardImages.append(player12)
-        //        cardImages.append(opponent11)
-        //        cardImages.append(opponent12)
         cardImages.append(flop1)
         cardImages.append(flop2)
         cardImages.append(flop3)
         cardImages.append(turn)
         cardImages.append(river)
-        
-        cardImages.append(opponent11)
-        cardImages.append(opponent12)
+
         //conform to protocol at top too:
         var player0 = gameController.players[0]
         self.gameController.delegate = self
@@ -280,14 +267,37 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             textField.returnKeyType = UIReturnKeyType.Done
         }
         var okAction = UIAlertAction(title: "Done", style: UIAlertActionStyle.Default) { (Action: UIAlertAction!) -> Void in
+            self.betAlertFinish()
             //self.textFieldDidEndEditing(self.betAlertController.textFields.first as UITextField)
         }
+        var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive) { (Action: UIAlertAction!) -> Void in
+            self.hideButtons(false)
+            //self.textFieldDidEndEditing(self.betAlertController.textFields.first as UITextField)
+        }
+        self.betAlertController.addAction(cancelAction)
         self.betAlertController.addAction(okAction)
+    }
+    func betAlertFinish() {
+        var textField = self.betAlertController.textFields?.first as UITextField
+        if textField.text.isEmpty {
+            self.hideButtons(false)
+        }
+        else if self.textIsValidValue(textField.text) == false {
+            var alert: UIAlertView = UIAlertView()
+            alert.title = "Invalid bet"
+            alert.message = "Sorry, \(textField.text) is not a valid bet.\n Please make another bet."
+            alert.addButtonWithTitle("Ok")
+            alert.show()
+            self.hideButtons(false)
+        }
+        else {
+            gameController.receiveBet(textField.text.toInt()!, player: gameController.players[gameController.currentPlayer])
+        }
     }
     
     func textFieldDidEndEditing(textField: UITextField!) {
         self.betAlertController.dismissViewControllerAnimated(true, completion: nil)
-        gameController.receiveBet(textField.text.toInt()!, player: gameController.players[gameController.currentPlayer])
+        
         //after bet is received, check if round is over.
         //do a for-in loop for all players.
         //call beginPlayersTurn(), but for now, I substitute with BUTTON.
@@ -295,18 +305,52 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         
     }
     
+    func textIsValidValue(newString : String) -> Bool {
+        for eachChar in newString {
+            switch eachChar {
+                case "0","1","2","3","4","5","6","7","8","9":
+                print()
+            default:
+                return false
+            }
+        }
+        return true
+    }
+    
     func textField(textField: UITextField!, shouldChangeCharactersInRange range: NSRange, replacementString string: String!) -> Bool {
         var playerChips = self.gameController.players[self.gameController.currentPlayer].chips
         var betAmount = textField.text.toInt()
         if (betAmount >= playerChips) {
             textField.text = "\(playerChips)"
-            return false
         }
+        
         
         return true
     }
     //name of func to be changed to beginBettingRound:
     func beginPlayersTurn() {
+        var currentPlayer = gameController.players[gameController.currentPlayer]
+        //check to see whether buttons should be check and bet, or call and raise:
+        if gameController.currentHighestBet > 0 {
+            //first, check to see if player is big blind pre-flop:
+            if gameController.isPreFlop == true && gameController.currentPlayer == gameController.bigBlind {
+                var currentPlayer = gameController.players[gameController.currentPlayer]
+                if currentPlayer.betForRound == gameController.currentHighestBet {
+                    self.checkCallButton.setTitle("Check", forState: UIControlState.Normal)
+                }
+                else {
+                    self.checkCallButton.setTitle("Call \(gameController.currentHighestBet - currentPlayer.betForRound)", forState: UIControlState.Normal)
+                }
+            }
+            else {
+                self.checkCallButton.setTitle("Call \(gameController.currentHighestBet - currentPlayer.betForRound)", forState: UIControlState.Normal)
+            }
+            self.betButton.setTitle("Raise", forState: UIControlState.Normal)
+        }
+        else {
+            self.checkCallButton.setTitle("Check", forState: UIControlState.Normal)
+            self.betButton.setTitle("Bet", forState: UIControlState.Normal)
+        }
         //to create a loop for this.
         if !gameController.players[gameController.currentPlayer].isComputer {
             self.betActionController.title = "Player \(gameController.currentPlayer), place your bet"
@@ -330,45 +374,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     
     func beginAllIn() {
         //reveal opponent's cards:
-        var onlyPlayer = gameController.players[0]
-        if onlyPlayer.eliminated == false && onlyPlayer.folded == false {
-            player11.currentCard = onlyPlayer.hand[0]
-            player12.currentCard = onlyPlayer.hand[1]
-        }
-        
-        var only2ndPlayer = gameController.players[1]
-        if only2ndPlayer.eliminated == false && only2ndPlayer.folded == false {
-            opponent11.currentCard = only2ndPlayer.hand[0]
-            opponent12.currentCard = only2ndPlayer.hand[1]
-        }
-        if gameController.players.count > 2 {
-            let player = gameController.players[2]
-            if player.eliminated == false && player.folded == false {
-                opponent21.currentCard = player.hand[0]
-                opponent22.currentCard = player.hand[1]
-            }
-        }
-        if gameController.players.count > 3 {
-            let player = gameController.players[3]
-            if player.eliminated == false && player.folded == false {
-                opponent31.currentCard = player.hand[0]
-                opponent32.currentCard = player.hand[1]
-            }
-        }
-        if gameController.players.count > 4 {
-            let player = gameController.players[4]
-            if player.eliminated == false && player.folded == false {
-                opponent41.currentCard = player.hand[0]
-                opponent42.currentCard = player.hand[1]
-            }
-        }
-        if gameController.players.count > 5 {
-            let player = gameController.players[5]
-            if player.eliminated == false && player.folded == false {
-                opponent51.currentCard = player.hand[0]
-                opponent52.currentCard = player.hand[1]
-            }
-        }
+        self.revealCards()
         //
         self.betView.hidden = true
         self.collectionView.hidden = false
@@ -393,6 +399,47 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         }
         
     }
+    func revealCards() {
+        var onlyPlayer = gameController.players[0]
+        if onlyPlayer.eliminated == false && onlyPlayer.folded == false {
+            player1View.cardView1.currentCard = onlyPlayer.hand[0]
+            player1View.cardView2.currentCard = onlyPlayer.hand[1]
+        }
+        
+        var only2ndPlayer = gameController.players[1]
+        if only2ndPlayer.eliminated == false && only2ndPlayer.folded == false {
+            opponent1View.cardView1.currentCard = only2ndPlayer.hand[0]
+            opponent1View.cardView2.currentCard = only2ndPlayer.hand[1]
+        }
+        if gameController.players.count > 2 {
+            let player = gameController.players[2]
+            if player.eliminated == false && player.folded == false {
+                opponent2View.cardView1.currentCard = player.hand[0]
+                opponent2View.cardView2.currentCard = player.hand[1]
+            }
+        }
+        if gameController.players.count > 3 {
+            let player = gameController.players[3]
+            if player.eliminated == false && player.folded == false {
+                opponent3View.cardView1.currentCard = player.hand[0]
+                opponent3View.cardView2.currentCard = player.hand[1]
+            }
+        }
+        if gameController.players.count > 4 {
+            let player = gameController.players[4]
+            if player.eliminated == false && player.folded == false {
+                opponent4View.cardView1.currentCard = player.hand[0]
+                opponent4View.cardView2.currentCard = player.hand[1]
+            }
+        }
+        if gameController.players.count > 5 {
+            let player = gameController.players[5]
+            if player.eliminated == false && player.folded == false {
+                opponent5View.cardView1.currentCard = player.hand[0]
+                opponent5View.cardView2.currentCard = player.hand[1]
+            }
+        }
+    }
     
     func faceDown() -> UIImage {
         return faceDownImage
@@ -403,16 +450,20 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         flop1.currentCard = holdemDeck.drawCard()
         flop2.currentCard = holdemDeck.drawCard()
         flop3.currentCard = holdemDeck.drawCard()
+        gameController.gameSummary.append("Flop: \(flop1.currentCard.valueName) of \(flop1.currentCard.suitName), \(flop2.currentCard.valueName) of \(flop2.currentCard.suitName), \(flop3.currentCard.valueName) of \(flop3.currentCard.suitName)")
+        self.tableView.reloadData(); self.scrollToBottom()
     }
     func dealTurn() {
         handStage = 2
         turn.currentCard = holdemDeck.drawCard()
-        
+        gameController.gameSummary.append("Turn card: \(turn.currentCard.valueName) of \(turn.currentCard.suitName)")
+        self.tableView.reloadData(); self.scrollToBottom()
     }
     func dealRiver() {
         handStage = 3
         river.currentCard = holdemDeck.drawCard()
-        
+        gameController.gameSummary.append("River card: \(river.currentCard.valueName) of \(river.currentCard.suitName)")
+        self.tableView.reloadData();self.scrollToBottom()
     }
     func endRound() {
         for eachImage in cardImages {
@@ -420,6 +471,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             eachImage.currentCard = nil
         }
         //not calling this caused repeat pocket cards:
+        self.handLabel.text = ""
         for eachPlayer in gameController.players {
             eachPlayer.hand = [Card]()
             eachPlayer.handPlusBoard = [Card]()
@@ -430,6 +482,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             eachPlayer.lossForHand = 0
             eachPlayer.isAllIn = false
             eachPlayer.isLeading = false
+            eachPlayer.selfView.betLabel.text = ""
             if eachPlayer.eliminated == false {
                 eachPlayer.isLive = true
             }
@@ -710,8 +763,8 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         var cardsUsed = [Card]()
         if handStage < 3 {
             if gameController.players[0].eliminated == false {
-                cardsUsed.append(player11.currentCard)
-                cardsUsed.append(player12.currentCard)
+                cardsUsed.append(self.player1View.cardView1.currentCard)
+                cardsUsed.append(self.player1View.cardView2.currentCard)
             }
         }
         if handStage == 0 {
@@ -866,7 +919,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         let cell = tableView.dequeueReusableCellWithIdentifier("summaryCell") as UITableViewCell
         cell.textLabel!.font = UIFont(name: cell.textLabel!.font.fontName, size: 8)
         cell.textLabel!.text = gameController.gameSummary[indexPath.row]
-        self.scrollToBottom()
+        
+//        cell.textLabel!.lineBreakMode = UILineBreakModeWordWrap
+        cell.textLabel!.numberOfLines = 0
         return cell
     }
     

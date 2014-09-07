@@ -12,7 +12,13 @@ class Player {
     var hand = [Card]()
     var handPlusBoard = [Card]()
     var best5CardCombo = [Card]()
-    var chips : Int!
+    @IBInspectable var chips : Int! {
+        didSet {
+            if let chipsView = self.selfView {
+                self.selfView.chipsLabel.text = "P\(self.seatNumber)\nChips:\n\(self.chips)"
+            }
+        }
+    }
     var name : String!
     var folded: Bool!
     var eliminated: Bool!
@@ -20,7 +26,11 @@ class Player {
     
     var isAllIn: Bool!
     var isLive: Bool!
-    var betForRound: Int!
+    @IBInspectable var betForRound: Int! {
+        didSet {
+            self.selfView.chipsLabel.text = "P\(self.seatNumber)\nChips:\n\(self.chips-self.betForRound)"
+        }
+    }
     var lossForHand = 0
     var tieBreak : Int!
     var outs = [Card]() //applies to all-ins.
@@ -31,9 +41,16 @@ class Player {
     //taken from HoldemView:
     var handSorter = HandSorter()
     var handComparer = HandComparer()
-    var bestHandType = 0
+    @IBInspectable var bestHandType : Int = 0 {
+        didSet {
+            //in case they do not have a hand yet:
+            if self.best5CardCombo.count == 5 {
+                self.handName = handComparer.handName(self.best5CardCombo, handValue: bestHandType)
+            }
+        }
+    }
     
-    var selfView : UIView!
+    var selfView : PlayerView!
     // reps self.textView.text in HoldemView
     var handName = ""
     init(isComputer: Bool, seatNumber: Int) {
@@ -225,6 +242,10 @@ class Player {
         else {
             //might be nothing. or a straight and/or flush
             //either way, time to do standard sorting:
+            if cardsToEvaluate.count != 5 {
+                println(cardsToEvaluate.count)
+            }
+            assert(cardsToEvaluate.count == 5)
             cardsToEvaluate = handSorter.sortCardValue(cardsToEvaluate)
             //check for flush:
             var stillFlush = true
