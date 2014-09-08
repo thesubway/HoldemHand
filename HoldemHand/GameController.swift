@@ -66,6 +66,7 @@ class GameController {
     var potSize = 0
     var winningPlayers = [Player]()
     var eliminatedPlayers = [Player]()
+    var sidePots = [SidePot]()
     
     var currentPlayer : Int! //this player shall act next
     var roundIsOver : Bool!
@@ -93,7 +94,7 @@ class GameController {
         player0.chips = startingChips
         players.append(player0)
         for i in 1..<(numPlayers) {
-            var player = Player(isComputer: true, seatNumber: i)
+            var player = Player(isComputer: false, seatNumber: i)
             player.chips = startingChips
             players.append(player)
         }
@@ -285,13 +286,7 @@ class GameController {
             holdemViewController.tableView.reloadData()
             holdemViewController.scrollToBottom()
             //subtract all player's chips.
-            for eachPlayer in self.players {
-                self.potSize += eachPlayer.betForRound
-                if let chipTot = eachPlayer.chips {
-                    eachPlayer.chips = eachPlayer.chips - eachPlayer.betForRound
-                    eachPlayer.lossForHand = eachPlayer.lossForHand + eachPlayer.betForRound
-                }
-            }
+            self.collectChips()
             //reset everything here? No. receiveBet method should do that.
             //check if all-in mode:
             var numPlayersLive = 0
@@ -401,13 +396,7 @@ class GameController {
             //turn on all-in mode
             println("COMMENTED out all-in,allin")
             //however, end the round first by collecting chips:
-            for eachPlayer in self.players {
-                self.potSize += eachPlayer.betForRound
-                if let chipTot = eachPlayer.chips {
-                    eachPlayer.chips = eachPlayer.chips - eachPlayer.betForRound
-                    eachPlayer.lossForHand = eachPlayer.lossForHand + eachPlayer.betForRound
-                }
-            }
+            self.collectChips()
             holdemViewController.allInMode = true
             holdemViewController.beginAllIn()
         }
@@ -438,6 +427,111 @@ class GameController {
             }
         }
     }
+    func collectChips() {
+        var newAllIn = false
+        for eachPlayer in self.players {
+            if eachPlayer.isAllIn == true && eachPlayer.sidePotMade == false {
+                newAllIn = true
+            }
+        }
+        if newAllIn == true {
+            self.calcSidePots()
+        }
+        else {
+        for eachPlayer in self.players {
+            self.potSize += eachPlayer.betForRound
+            if let chipTot = eachPlayer.chips {
+                eachPlayer.chips = eachPlayer.chips - eachPlayer.betForRound
+            }
+            
+        }
+        }
+    }
+    func calcSidePots() {
+        //check for any all-ins, for side-pots:
+        //players all-in array.
+        var allInPlayers = [Player]()
+        //if player is all-in:
+        var currentPot = 0
+        for eachPlayer in self.players {
+            if eachPlayer.isAllIn == true && eachPlayer.sidePotMade == false {
+                eachPlayer.sidePotMade = true
+                allInPlayers.append(eachPlayer)
+            }
+        }
+        while (allInPlayers.count > 0) {
+            for eachPlayer in self.players {
+                if eachPlayer.isAllIn == true && eachPlayer.sidePotMade == false {
+                    eachPlayer.sidePotMade = true
+                    allInPlayers.append(eachPlayer)
+                }
+            }
+        println(allInPlayers.count)
+        //with the list of all-in players, find the one with fewest chips:
+        var fewestChips : Int!
+        for eachPlayer in allInPlayers {
+            if fewestChips == nil {
+                fewestChips = eachPlayer.chipsStartedHandWith
+            }
+            else {
+                if (eachPlayer.chipsStartedHandWith) < fewestChips {
+                    fewestChips = eachPlayer.chipsStartedHandWith
+                }
+            }
+            println("seat num: \(eachPlayer.seatNumber)")
+            println("\(eachPlayer.chipsStartedHandWith)")
+            println("\(fewestChips)")
+            println()
+        }
+        
+        
+            //create sidepot with that chip amount:
+            var sidePot = SidePot(maxPerPlayer: fewestChips)
+            self.sidePots.append(sidePot)
+            //self.maxLoss is the amount the player is all-in for.
+            //self.maxPerPlayer is the amount each player can put into that pot.
+            //they can be different numbers if there are 3+ pots.
+            //ensure the maxPerPlayer subtracts from previous one.
+            if self.sidePots.count > 1 {
+                sidePot.maxPerPlayer = sidePot.maxPerPlayer - self.sidePots[self.sidePots.count-2].maxLoss
+            }
+            
+            for eachPlayer in self.players {
+                if let chipTot = eachPlayer.chips {
+                    println("\(eachPlayer.betForRound),\(sidePot.maxPerPlayer)")
+                    if eachPlayer.betForRound > sidePot.maxPerPlayer {
+                        eachPlayer.chips = eachPlayer.chips - sidePot.maxPerPlayer
+                        eachPlayer.betForRound = eachPlayer.betForRound - sidePot.maxPerPlayer
+                        self.potSize += sidePot.maxPerPlayer
+                    }
+                    else {
+                        eachPlayer.chips = eachPlayer.chips - eachPlayer.betForRound
+                        self.potSize += eachPlayer.betForRound
+                        eachPlayer.betForRound = 0 //(a.k.a. betForRound - betForRound)
+                    }
+                    println("\(self.potSize)")
+                    print()
+                }
+                
+            }
+            //bring the mainPot to the sidePot:
+            print("\(sidePot.potSize) ")
+            sidePot.potSize = sidePot.potSize + self.potSize
+            println("+ \(self.potSize) = \(sidePot.potSize)")
+            var sidePotLabel = SidePotLabel()
+            sidePotLabel.initializeSelf(sidePot)
+            holdemViewController.boardView.pots.append(sidePotLabel)
+            holdemViewController.boardView.updateSelf()
+            self.potSize = 0
+            //REMOVE PLAYER:
+            for var i = 0; i < allInPlayers.count; i++ {
+                if allInPlayers[i].chipsStartedHandWith == sidePot.maxLoss {
+                    allInPlayers.removeAtIndex(i)
+                    i--
+                }
+            }
+        }
+    }
     //so after all bets are made, check if match.
     func endRound() {
         //check if any players are out of chips.
@@ -452,31 +546,74 @@ class GameController {
         }
     }
     func awardWinnerContested(contested: Bool,falseWinner: Player) {
+        var chipsToGive = 0
         var winnerList = [Player]()
+        var listOfPlayers = "Players "
+        do {
+        winnerList = [Player]()
         if contested == true {
             winnerList = self.calculateLeader()
+            println(winnerList.count)
+            print()
         }
         else {
             winnerList.append(falseWinner)
+            println(winnerList.count)
+            print()
         }
+        self.winningPlayers = [Player]()
         for eachPlayer in winnerList {
             self.winningPlayers.append(eachPlayer)
+            println(self.winningPlayers.count)
+            print()
         }
-        var chipsToGive = 0
-        var listOfPlayers = "Players "
+        chipsToGive = 0
         for var i = 0; i < self.winningPlayers.count; i++ {
-            chipsToGive = self.potSize / self.winningPlayers.count
+            //holdemViewController.boardView.pots[0]
+            var eachPlayer = self.winningPlayers[i]
+            if holdemViewController.boardView.pots.count > 0 {
+                for eachPot in holdemViewController.boardView.pots {
+                    //check if player had enough chips for pot ("qualified"):
+                    if eachPlayer.chipsStartedHandWith >= eachPot.sidePot.maxLoss {
+                        println("\(self.winningPlayers.count)")
+                        //make sure split-divisor only divides by "qualified" players:
+                        var splitPlayers = 0
+                        for eachPlayer2 in self.winningPlayers {
+                            if eachPlayer2.chipsStartedHandWith >= eachPot.sidePot.maxLoss {
+                                splitPlayers++
+                            }
+                        }
+                        chipsToGive += eachPot.sidePot.potSize / splitPlayers
+                        eachPot.sidePot.done = true
+                        println("Player \(eachPlayer.seatNumber) wins \(chipsToGive)")
+                        print()
+                    }
+                }
+            }
+            else {
+                chipsToGive = self.potSize / self.winningPlayers.count
+            }
 //            println("Player \(eachPlayer.seatNumber) wins \(chipsToGive) chips!")
                 listOfPlayers = listOfPlayers + "\(self.winningPlayers[i].seatNumber), "
             self.winningPlayers[i].chips = self.winningPlayers[i].chips + chipsToGive
+            chipsToGive = 0
         }
+        //delete all used sidePots, and fold players that won those sidePots:
+        for var i = 0; i < holdemViewController.boardView.pots.count; i++ {
+            var eachPot = holdemViewController.boardView.pots[i]
+            if eachPot.sidePot.done == true {
+                holdemViewController.boardView.pots.removeAtIndex(i)
+                i--
+            }
+        }
+        for eachPlayer in winnerList {
+            eachPlayer.folded = true
+        }
+        self.winningPlayers = [Player]()
+        } while holdemViewController.boardView.pots.count > 0
+        //end the while-loop
         listOfPlayers = listOfPlayers + "each win \(chipsToGive) chips!"
-//        if self.winningPlayers.count == 1 {
-//            holdemViewController.handLabel.text = "Player \(self.winningPlayers[0].seatNumber) wins \(chipsToGive) chips!"
-//        }
-//        else {
-//            holdemViewController.handLabel.text = listOfPlayers
-//        }
+
         if contested == true {
             //don't show if everyone folds.
             holdemViewController.revealCards()
@@ -504,10 +641,10 @@ class GameController {
             //find the player with fewest lost chips this round.
             var playerWithFewestChips = eliminatedThisHand[0]
             for eachPlayer in eliminatedThisHand {
-                if eachPlayer.lossForHand < playerWithFewestChips.lossForHand {
+                if eachPlayer.chipsStartedHandWith < playerWithFewestChips.chipsStartedHandWith {
                     playerWithFewestChips = eachPlayer
                 }
-                else if eachPlayer.lossForHand == playerWithFewestChips.lossForHand {
+                else if eachPlayer.chipsStartedHandWith == playerWithFewestChips.chipsStartedHandWith {
                     //check who had worse hand
                     playerWithFewestChips = handComparer.compareForLoser(eachPlayer, player2: playerWithFewestChips)
                 }

@@ -382,9 +382,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         if handStage == 0 {
             var timer1 = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
             var timer2 = NSTimer.scheduledTimerWithTimeInterval(7, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(21, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer4 = NSTimer.scheduledTimerWithTimeInterval(23, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer5 = NSTimer.scheduledTimerWithTimeInterval(25, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
+            var timer3 = NSTimer.scheduledTimerWithTimeInterval(8, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer4 = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer5 = NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
         }
         else if handStage == 1 {
             var timer1 = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
@@ -479,8 +479,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             eachPlayer.bestHandType = 0
             eachPlayer.handName = ""
             eachPlayer.folded = false
-            eachPlayer.lossForHand = 0
+            eachPlayer.chipsStartedHandWith = eachPlayer.chips
             eachPlayer.isAllIn = false
+            eachPlayer.sidePotMade = false
             eachPlayer.isLeading = false
             eachPlayer.selfView.betLabel.text = ""
             if eachPlayer.eliminated == false {
@@ -489,6 +490,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         }
         handStage = 0
         gameController.isPreFlop = true
+        gameController.sidePots = [SidePot]()
         println("endRound")
         self.beginGame()
     }
@@ -906,7 +908,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        if gameController.currentPlayer == 0 {
+        if gameController.players[gameController.currentPlayer].isComputer == false {
             self.hideButtons(false)
         }
     }

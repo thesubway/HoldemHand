@@ -25,13 +25,14 @@ class Player {
     var finishPosition : Int!
     
     var isAllIn: Bool!
+    var sidePotMade = false
     var isLive: Bool!
     @IBInspectable var betForRound: Int! {
         didSet {
             self.selfView.chipsLabel.text = "P\(self.seatNumber)\nChips:\n\(self.chips-self.betForRound)"
         }
     }
-    var lossForHand = 0
+    var chipsStartedHandWith = 0
     var tieBreak : Int!
     var outs = [Card]() //applies to all-ins.
     var isLeading : Bool! //applies to all-ins. False if tie.
