@@ -387,6 +387,7 @@ class GameController {
         if playersIn.count == 1 {
             //give that player the chips.
             println("Only player \(playersIn[0].seatNumber) left")
+            self.collectChips()
             self.awardWinnerContested(false,falseWinner: playersIn[0])
             //end game
             holdemViewController.endRound()
@@ -434,11 +435,19 @@ class GameController {
                 newAllIn = true
             }
         }
-        if newAllIn == true {
-            self.calcSidePots()
+        //first, make sure there is at least a second player in pot.
+        var numPlayers = 0
+        for eachPlayer in self.players {
+            if eachPlayer.eliminated == false && eachPlayer.folded == false {
+                numPlayers++
+            }
+        }
+        if newAllIn == true && numPlayers > 1 {
+                self.calcSidePots()
         }
         else {
         for eachPlayer in self.players {
+            println(eachPlayer.betForRound)
             self.potSize += eachPlayer.betForRound
             if let chipTot = eachPlayer.chips {
                 eachPlayer.chips = eachPlayer.chips - eachPlayer.betForRound
