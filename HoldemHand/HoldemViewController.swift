@@ -919,7 +919,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("summaryCell") as UITableViewCell
-        cell.textLabel!.font = UIFont(name: cell.textLabel!.font.fontName, size: 8)
+        cell.textLabel!.font = UIFont(name: cell.textLabel!.font.fontName, size: 10)
         cell.textLabel!.text = gameController.gameSummary[indexPath.row]
         
 //        cell.textLabel!.lineBreakMode = UILineBreakModeWordWrap
