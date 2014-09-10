@@ -14,6 +14,9 @@ class Player {
     var best5CardCombo = [Card]()
     @IBInspectable var chips : Int! {
         didSet {
+            if self.chipsStartedHandWith == 0 {
+                self.chipsStartedHandWith = self.chips
+            }
             if let chipsView = self.selfView {
                 self.selfView.chipsLabel.text = "P\(self.seatNumber)\nChips:\n\(self.chips)"
             }

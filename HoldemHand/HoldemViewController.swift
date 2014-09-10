@@ -285,7 +285,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         else if self.textIsValidValue(textField.text) == false {
             var alert: UIAlertView = UIAlertView()
             alert.title = "Invalid bet"
-            alert.message = "Sorry, \(textField.text) is not a valid bet.\n Please make another bet."
+            alert.message = "Sorry, '\(textField.text)' is not a valid bet.\nUnless you move ALL-IN, your raise-amount must be:\n-At least 2 big-blinds when pre-flop.\n-At least 1 big-blind when post-flop.\n-At least double the call amount."
             alert.addButtonWithTitle("Ok")
             alert.show()
             self.hideButtons(false)
@@ -313,6 +313,26 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             default:
                 return false
             }
+        }
+        //at this point, it's valid numbers:
+        var betAmount = newString.toInt()
+        //ensure bet amount is not too small.
+        var currentPlayer = gameController.players[gameController.currentPlayer]
+        if betAmount >= currentPlayer.chips {
+            return true //because ALL-IN avoids restrictions.
+        }
+        if betAmount <= self.gameController.currentHighestBet {
+            return false
+        }
+        var amountToCall = gameController.currentHighestBet - currentPlayer.betForRound
+        if betAmount < gameController.currentHighestBet + amountToCall {
+            return false
+        }
+        if betAmount < gameController.blindAmount {
+            return false
+        }
+        if gameController.isPreFlop == true && betAmount < (gameController.blindAmount * 2) {
+            return false
         }
         return true
     }

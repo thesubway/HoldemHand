@@ -229,7 +229,8 @@ class GameController {
             self.firstPlayerToAct = player.seatNumber
             self.lastPlayerToAct = (player.seatNumber - 1 + self.players.count) % self.players.count
         }
-        else if player.betForRound == self.currentHighestBet {
+        else if player.betForRound <= self.currentHighestBet && player.folded == false {
+            // (it can be lower than highest bet, if he's all-in)
             if self.currentHighestBet > 0 {
                 //That means he calls.
                 if player.isAllIn == false {
