@@ -36,15 +36,15 @@ class ViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDeleg
 
     }
     func showGameCenterAuthController(note: NSNotification) {
-        println("method has been called")
-        if let gkHelper = note.object as? GameKitHelper {
-            self.presentViewController(gkHelper.authenticationViewController, animated: true, completion: { () -> Void in
-                println("Showing authenticationVC")
-            })
-        }
-        else {
-            println("if does not work")
-        }
+        //gameCenterHelper
+//        if let gkHelper = note.object as? GameKitHelper {
+//            self.presentViewController(gkHelper.authenticationViewController, animated: true, completion: { () -> Void in
+//                println("Showing authenticationVC")
+//            })
+//        }
+//        else {
+//            println("if does not work")
+//        }
     }
     @IBAction func joinMatchPressed(sender: AnyObject) {
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showGameCenterAuthController:", name: "present_authentication_view_controller", object: nil)
@@ -61,7 +61,7 @@ class ViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDeleg
         
         
 //        let localPlayer = GKLocalPlayer()
-        let localPlayer = GameKitHelper.getLocalPlayer()
+        let localPlayer = GameCenterManager.sharedManager().localPlayerData()
         
         if localPlayer.authenticated == false {
             localPlayer.authenticateHandler = {(viewController, error) in

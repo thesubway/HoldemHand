@@ -781,7 +781,7 @@ class GameController {
                 for eachCard2 in eachPlayer.outs {
                     //add to first outs list:
                     holdemViewController.outsCards.append(eachCard2)
-                    print("\(eachCard2.valueDisplay)\(eachCard2.suit) ")
+//                    print("\(eachCard2.valueDisplay)\(eachCard2.suit) ")
                 }
                 println()
             }

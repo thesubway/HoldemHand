@@ -44,7 +44,7 @@ class DeckOfCards {
     }
 }
 class UnshuffledDeck {
-    var cards: [Card] = []
+    var cards = [Card]()
     var numSuits = 4
     init() {
         //assumes the ace is highest value.

@@ -15,7 +15,13 @@ class Player {
     @IBInspectable var chips : Int! {
         didSet {
             if self.chipsStartedHandWith == 0 {
-                self.chipsStartedHandWith = self.chips
+                println(self.seatNumber)
+                    if self.eliminated == false {
+                        self.chipsStartedHandWith = self.chips
+                    }
+                else {
+                    print()
+                }
             }
             if let chipsView = self.selfView {
                 self.selfView.chipsLabel.text = "P\(self.seatNumber)\nChips:\n\(self.chips)"
@@ -69,19 +75,19 @@ class Player {
     
     func testNextCard(var cards: [Card]) -> ([Card], Int) {
         assert(handStage == 1 || handStage == 2 || handStage == 4)
-        if handStage == 4 {
-            assert(cards.count == 0)
-        }
-        if (handStage == 1) {
-            assert(cards.count <= 2) //
-        }
-        if handStage == 2 {
-            assert(cards.count <= 1)
-        }
-        if handStage == 0 {
-            assert(cards.count <= 5)
-            assert(cards.count >= 3)
-        }
+//        if handStage == 4 {
+//            assert(cards.count == 0)
+//        }
+//        if (handStage == 1) {
+//            assert(cards.count <= 2) //
+//        }
+//        if handStage == 2 {
+//            assert(cards.count <= 1)
+//        }
+//        if handStage == 0 {
+//            assert(cards.count <= 5)
+//            assert(cards.count >= 3)
+//        }
         var unshuffledDeck = UnshuffledDeck()
         var cardsToEvaluate = [Card]()
         var whatHandWouldBe = [Card]()
@@ -104,6 +110,19 @@ class Player {
             (whatHandWouldBe,whatHandValueWouldBe) = self.evaluateFullHand(cardsToEvaluate)
         }
         return (whatHandWouldBe,whatHandValueWouldBe)
+    }
+    func testOneCard(nextCard : Card) {
+        //use handPlusBoard as self's hand.
+        self.handPlusBoard.append(nextCard)
+        //remove that card from array
+        if self.handPlusBoard.count == 6 {
+            self.evaluate6CardHand(self.handPlusBoard)
+        }
+        else {
+            assert(self.handPlusBoard.count == 7)
+            self.evaluateFullHand(self.handPlusBoard)
+        }
+        self.handPlusBoard.removeLast()
     }
     
     func evaluateHand() {

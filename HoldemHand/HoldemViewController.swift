@@ -18,6 +18,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     var handComparer = HandComparer()
     //default:
     var gameController : GameController!
+    var allinCalculator : AllinCalculator!
     var betActionController = UIAlertController(title: "Place your bet", message: "Choose an option", preferredStyle: UIAlertControllerStyle.ActionSheet)
     var betAlertController = UIAlertController(title: "Place your bet", message: "Enter in your amount", preferredStyle: UIAlertControllerStyle.Alert)
     var currentPlayer : Player!
@@ -63,7 +64,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     
     var cardImages = [CardImage]()
     var allPlayers = [Player]()
-    
+    var playersAllIn = [Player]()
     var player0: Player!
     //var player1 = gameController.
     //hard-code, or hardcode num players to 1.
@@ -80,6 +81,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
 //        for eachPlayerView in playerViews {
 //            eachPlayerView.initializeSelf()
 //        }
+        self.allinCalculator = AllinCalculator(holdemViewController: self)
         self.gameController = GameController(startingChips: 500, numPlayers: 6)
         self.playerViews.append(self.player1View);self.playerViews.append(self.opponent1View);self.playerViews.append(self.opponent2View);playerViews.append(self.opponent3View);playerViews.append(self.opponent4View);playerViews.append(self.opponent5View);
         for i in 0..<self.gameController.players.count {
@@ -198,6 +200,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.boardView.initializeSelf()
         self.collectionView.hidden = true
         self.betView.hidden = false
 //        self.viewOfColView.hidden = true
@@ -420,22 +423,26 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         
     }
     func revealCards() {
+        
         var onlyPlayer = gameController.players[0]
         if onlyPlayer.eliminated == false && onlyPlayer.folded == false {
             player1View.cardView1.currentCard = onlyPlayer.hand[0]
             player1View.cardView2.currentCard = onlyPlayer.hand[1]
+            self.playersAllIn.append(onlyPlayer)
         }
         
         var only2ndPlayer = gameController.players[1]
         if only2ndPlayer.eliminated == false && only2ndPlayer.folded == false {
             opponent1View.cardView1.currentCard = only2ndPlayer.hand[0]
             opponent1View.cardView2.currentCard = only2ndPlayer.hand[1]
+            self.playersAllIn.append(only2ndPlayer)
         }
         if gameController.players.count > 2 {
             let player = gameController.players[2]
             if player.eliminated == false && player.folded == false {
                 opponent2View.cardView1.currentCard = player.hand[0]
                 opponent2View.cardView2.currentCard = player.hand[1]
+                self.playersAllIn.append(player)
             }
         }
         if gameController.players.count > 3 {
@@ -443,6 +450,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             if player.eliminated == false && player.folded == false {
                 opponent3View.cardView1.currentCard = player.hand[0]
                 opponent3View.cardView2.currentCard = player.hand[1]
+                self.playersAllIn.append(player)
             }
         }
         if gameController.players.count > 4 {
@@ -450,6 +458,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             if player.eliminated == false && player.folded == false {
                 opponent4View.cardView1.currentCard = player.hand[0]
                 opponent4View.cardView2.currentCard = player.hand[1]
+                self.playersAllIn.append(player)
             }
         }
         if gameController.players.count > 5 {
@@ -457,6 +466,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             if player.eliminated == false && player.folded == false {
                 opponent5View.cardView1.currentCard = player.hand[0]
                 opponent5View.cardView2.currentCard = player.hand[1]
+                self.playersAllIn.append(player)
             }
         }
     }
@@ -504,9 +514,11 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             eachPlayer.sidePotMade = false
             eachPlayer.isLeading = false
             eachPlayer.selfView.betLabel.text = ""
+            eachPlayer.outs = [Card]()
             if eachPlayer.eliminated == false {
                 eachPlayer.isLive = true
             }
+            self.playersAllIn = [Player]()
         }
         handStage = 0
         gameController.isPreFlop = true
@@ -816,7 +828,8 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 
             }
             else {
-                gameController.calculateOuts()
+//                gameController.calculateOuts()
+                self.allinCalculator.calcOuts(self.playersAllIn)
                 //calculate odds. If odds are already 100%, just quickly deal next cards.
             }
         }
@@ -848,7 +861,11 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
                 var timer1 = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: Selector("beginPlayersTurn"), userInfo: nil, repeats: false)
             }
             else {
-                gameController.calculateOuts()
+//                gameController.calculateOuts()
+                for eachPlayer in playersAllIn {
+                    eachPlayer.outs = [Card]()
+                }
+                self.allinCalculator.calcOuts(self.playersAllIn)
             }
         }
         else if handStage == 2 {

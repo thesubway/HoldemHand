@@ -11,9 +11,14 @@ import UIKit
 class BoardView: UIView {
     var pots = [SidePotLabel]()
     var mainPot = UILabel()
-
+    
     func initializeSelf() {
-
+        if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Phone {
+            
+        }
+        else if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad {
+            
+        }
     }
     func updateSelf() {
         //start out with mainPot
