@@ -9,7 +9,9 @@
 import UIKit
 import GameKit
 class ViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDelegate, UINavigationControllerDelegate {
-                            
+
+    var matchRequestVC : GKTurnBasedMatchmakerViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showGameCenterAuthController:", name: "present_authentication_view_controller", object: nil)
@@ -48,72 +50,47 @@ class ViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDeleg
     }
     @IBAction func joinMatchPressed(sender: AnyObject) {
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showGameCenterAuthController:", name: "present_authentication_view_controller", object: nil)
-        NSNotificationCenter.defaultCenter().postNotificationName("present_authentication_view_controller", object: nil)
+//        NSNotificationCenter.defaultCenter().postNotificationName("present_authentication_view_controller", object: nil)
         var matchRequest = GKMatchRequest()
         //set min and max players:
         matchRequest.minPlayers = 2
         matchRequest.maxPlayers = 6
         
         //will be a pre-built controller:
-        var matchRequestVC = GKTurnBasedMatchmakerViewController(matchRequest: matchRequest)
-        matchRequestVC.delegate = self
+        matchRequestVC = GKTurnBasedMatchmakerViewController(matchRequest: matchRequest)
+        matchRequestVC!.turnBasedMatchmakerDelegate = self
         
         
         
 //        let localPlayer = GKLocalPlayer()
-        let localPlayer = GameCenterManager.sharedManager().localPlayerData()
-        
-        if localPlayer.authenticated == false {
-            localPlayer.authenticateHandler = {(viewController, error) in
-                if viewController != nil {
-                    println("Fire")
-                    self.presentViewController(viewController, animated: true, completion: nil)
-                }
-                else {
-                    println("viewcontroller is nil")
-                }
-                if error != nil {
-                    println("error authenticating local user: \(error.localizedDescription)")
-                }
-                else {
-                    println("dismissing.")
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        println("Finished Logging In. View Controller exit.")
-                    })
+        if let localPlayer = GameCenterManager.sharedManager().localPlayerData() {
+            if localPlayer.authenticated == false {
+                localPlayer.authenticateHandler = {(viewController, error) in
+                    if viewController != nil {
+                        println("Fire")
+                        self.presentViewController(viewController, animated: true, completion: nil)
+                    }
+                    else {
+                        println("viewcontroller is nil")
+                    }
+                    if error != nil {
+                        println("error authenticating local user: \(error.localizedDescription)")
+                    }
+                    else {
+                        println("dismissing.")
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            println("Finished Logging In. View Controller exit.")
+                        })
+                    }
                 }
             }
+            else {
+                println("no error")
+                self.presentViewController(matchRequestVC!, animated: true, completion: { () -> Void in
+                    
+                })
+            }
         }
-        else {
-            println("no error")
-            self.presentViewController(matchRequestVC, animated: true, completion: { () -> Void in
-                
-                /*
-                var localPlayer = CGLocalPlayer.localPlayer()
-                localPlayer.authenticationHandler = {(viewController : UIViewController!, error : NSError!) -> Void in
-                //handle authentication
-                }
-                
-                localPlayer.authenticateHandler  =
-                ^(UIViewController *viewController, NSError *error) {
-                //3
-                [self setLastError:error];
-                
-                if(viewController != nil) {
-                //4
-                [self setAuthenticationViewController:viewController];
-                } else if([GKLocalPlayer localPlayer].isAuthenticated) {
-                //5
-                _enableGameCenter = YES;
-                } else {
-                //6
-                _enableGameCenter = NO;
-                }
-                };
-                */
-            })
-        }
-
-        
     }
     //must implement 4 following methods:
     
@@ -136,7 +113,7 @@ class ViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDeleg
 
         var holdemView = self.storyboard!.instantiateViewControllerWithIdentifier("holdemView") as HoldemViewController
         
-        holdemView.gameController.match = match
+        holdemView.match = match
         if self.navigationController != nil {
             self.navigationController!.pushViewController(holdemView, animated: true)
         }

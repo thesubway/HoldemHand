@@ -53,4 +53,10 @@ class BoardView: UIView {
             }
         }
     }
+    func clearSelf() {
+        for eachPot in pots {
+            eachPot.removeFromSuperview()
+        }
+        pots = [SidePotLabel]()
+    }
 }

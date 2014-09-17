@@ -68,7 +68,14 @@ class GameController {
     var eliminatedPlayers = [Player]()
     var sidePots = [SidePot]()
     
-    var currentPlayer : Int! //this player shall act next
+    @IBInspectable var currentPlayer : Int! {
+        didSet {
+            for eachView in holdemViewController.playerViews {
+                eachView.backgroundColor = UIColor.redColor()
+            }
+            holdemViewController.playerViews[currentPlayer].backgroundColor = UIColor.blueColor()
+        }
+    }
     var roundIsOver : Bool!
     
     var isPreFlop = true
@@ -596,6 +603,8 @@ class GameController {
                         chipsToGive += eachPot.sidePot.potSize / splitPlayers
                         eachPot.sidePot.done = true
                         println("Player \(eachPlayer.seatNumber) wins \(chipsToGive)")
+                        eachPlayer.selfView.cardView1.currentCard = eachPlayer.hand[0]
+                        eachPlayer.selfView.cardView2.currentCard = eachPlayer.hand[1]
                         print()
                     }
                 }

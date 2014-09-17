@@ -18,6 +18,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     var handComparer = HandComparer()
     //default:
     var gameController : GameController!
+    var match : GKTurnBasedMatch?
     var allinCalculator : AllinCalculator!
     var betActionController = UIAlertController(title: "Place your bet", message: "Choose an option", preferredStyle: UIAlertControllerStyle.ActionSheet)
     var betAlertController = UIAlertController(title: "Place your bet", message: "Enter in your amount", preferredStyle: UIAlertControllerStyle.Alert)
@@ -404,16 +405,16 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         //MISSING METHOD: reveal all cards.
         if handStage == 0 {
             var timer1 = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer2 = NSTimer.scheduledTimerWithTimeInterval(7, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(8, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer4 = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer5 = NSTimer.scheduledTimerWithTimeInterval(12, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
+            var timer2 = NSTimer.scheduledTimerWithTimeInterval(11, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer3 = NSTimer.scheduledTimerWithTimeInterval(18, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer4 = NSTimer.scheduledTimerWithTimeInterval(20, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer5 = NSTimer.scheduledTimerWithTimeInterval(22, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
         }
         else if handStage == 1 {
             var timer1 = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer2 = NSTimer.scheduledTimerWithTimeInterval(19, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer3 = NSTimer.scheduledTimerWithTimeInterval(21, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
-            var timer4 = NSTimer.scheduledTimerWithTimeInterval(23, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
+            var timer2 = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer3 = NSTimer.scheduledTimerWithTimeInterval(17, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+            var timer4 = NSTimer.scheduledTimerWithTimeInterval(19, target: self, selector: Selector("allInDone"), userInfo: nil, repeats: false)
         }
         else if handStage == 2 {
             var timer1 = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
@@ -521,6 +522,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             self.playersAllIn = [Player]()
         }
         handStage = 0
+        self.boardView.clearSelf()
         gameController.isPreFlop = true
         gameController.sidePots = [SidePot]()
         println("endRound")
@@ -529,8 +531,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     func showDown() {
         handStage = 4
         println("showdown")
+        self.revealCards()
         gameController.awardWinnerContested(true,falseWinner: gameController.players[0])
-        var timer1 = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
+        var timer1 = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: Selector("dealNext"), userInfo: nil, repeats: false)
     }
     
     func evaluate5CardHand(var cardsToEvaluate: [Card]) -> [Card] {
@@ -829,7 +832,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             }
             else {
 //                gameController.calculateOuts()
-                self.allinCalculator.calcOuts(self.playersAllIn)
+//                self.allinCalculator.calcOuts(self.playersAllIn)
                 //calculate odds. If odds are already 100%, just quickly deal next cards.
             }
         }
@@ -862,10 +865,10 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             }
             else {
 //                gameController.calculateOuts()
-                for eachPlayer in playersAllIn {
-                    eachPlayer.outs = [Card]()
-                }
-                self.allinCalculator.calcOuts(self.playersAllIn)
+//                for eachPlayer in playersAllIn {
+//                    eachPlayer.outs = [Card]()
+//                }
+//                self.allinCalculator.calcOuts(self.playersAllIn)
             }
         }
         else if handStage == 2 {
