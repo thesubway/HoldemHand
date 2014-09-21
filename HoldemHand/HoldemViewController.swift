@@ -102,8 +102,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     func updatePlayersCards(players: [Player]) {
         var onlyPlayer = players[0]
         if onlyPlayer.eliminated == false {
-            player1View.cardView1.currentCard = onlyPlayer.hand[0]
-            player1View.cardView2.currentCard = onlyPlayer.hand[1]
+            player1View.cardView1.currentCard = nil
+            player1View.cardView2.currentCard = nil
+//            player1View.cardView2.currentCard = onlyPlayer.hand[1]
         }
         else {
             self.player1View.hidden = true
@@ -515,6 +516,8 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
             eachPlayer.sidePotMade = false
             eachPlayer.isLeading = false
             eachPlayer.selfView.betLabel.text = ""
+            eachPlayer.selfView.cardView1.hidden = false
+            eachPlayer.selfView.cardView2.hidden = false
             eachPlayer.outs = [Card]()
             if eachPlayer.eliminated == false {
                 eachPlayer.isLive = true

@@ -378,6 +378,8 @@ class GameController {
     func receiveFold(player: Player) {
         player.folded = true
         player.isLive = false
+        player.selfView.cardView1.hidden = true
+        player.selfView.cardView2.hidden = true
         //now their cards are gone:
         var playersIn = [Player]()
         var numPlayersLive = 0
