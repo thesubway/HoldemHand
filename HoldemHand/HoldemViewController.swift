@@ -27,6 +27,8 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     var dealerButton = 0
     var roundNumber = 0
     
+    var gameCenter : Bool!
+    
     //handStage 0-pre-flop. 1-flop. 2-turn. 3-river. 4-showdown. 5-over.
     var allInMode = false
     //all-in will be a different kind of stage
@@ -75,20 +77,20 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     @IBOutlet var handLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        //add the cardViews onto the playerViews:
-        
-        //add all the playerViews into an array:
-        
-//        for eachPlayerView in playerViews {
-//            eachPlayerView.initializeSelf()
-//        }
+
         self.allinCalculator = AllinCalculator(holdemViewController: self)
-        self.gameController = GameController(startingChips: 500, numPlayers: 6)
+        if let gameCenterMatch = self.match {
+            self.gameController = GameController(startingChips: 500, numPlayers: gameCenterMatch.participants.count)
+            self.gameController.match = self.match
+        
+        }
         self.playerViews.append(self.player1View);self.playerViews.append(self.opponent1View);self.playerViews.append(self.opponent2View);playerViews.append(self.opponent3View);playerViews.append(self.opponent4View);playerViews.append(self.opponent5View);
         for i in 0..<self.gameController.players.count {
             playerViews[i].initializeSelf(self.gameController.players[i])
         }
+        
         self.collectionView.reloadData()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -177,6 +179,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     }
     
     override func viewWillAppear(animated: Bool) {
+        
+//        self.extraOuts.dataSource = self
+        //self.beginGame()
         println("appeared")
         gameController.holdemViewController = self
         for eachPlayer in gameController.players {
@@ -188,16 +193,14 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         cardImages.append(flop3)
         cardImages.append(turn)
         cardImages.append(river)
-
+        
         //conform to protocol at top too:
         var player0 = gameController.players[0]
         self.gameController.delegate = self
-       
+        
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.collectionView.dataSource = self
-//        self.extraOuts.dataSource = self
-        //self.beginGame()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -802,9 +805,10 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     func dealNext() {
         var cardsUsed = [Card]()
         if handStage < 3 {
-            if gameController.players[0].eliminated == false {
-                cardsUsed.append(self.player1View.cardView1.currentCard)
-                cardsUsed.append(self.player1View.cardView2.currentCard)
+            var player0 = gameController.players[0]
+            if player0.eliminated == false && player0.folded == false {
+//                cardsUsed.append(self.player1View.cardView1.currentCard)
+//                cardsUsed.append(self.player1View.cardView2.currentCard)
             }
         }
         if handStage == 0 {
@@ -822,9 +826,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
 //                    eachPlayer.handPlusBoard.removeLast()
 //                }
             }
-            if gameController.players[0].eliminated == false {
-                self.evaluate5CardHand(cardsUsed)
-            }
+//            if gameController.players[0].eliminated == false {
+//                self.evaluate5CardHand(cardsUsed)
+//            }
             // ADDED TUES
             //begin betting round, but for now call beginPlayersTurn.
             if !self.allInMode {
@@ -857,9 +861,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
 //                    eachPlayer.handPlusBoard.removeLast()
 //                }
             }
-            if gameController.players[0].eliminated == false {
-                self.evaluate6CardHand(cardsUsed)
-            }
+//            if gameController.players[0].eliminated == false {
+//                self.evaluate6CardHand(cardsUsed)
+//            }
             // ADDED TUES
             if !self.allInMode {
                 gameController.beginBetRound()
@@ -895,9 +899,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
 //                    eachPlayer.handPlusBoard.removeLast()
 //                }
             }
-            if gameController.players[0].eliminated == false {
-                self.evaluateFullHand(cardsUsed)
-            }
+//            if gameController.players[0].eliminated == false {
+//                self.evaluateFullHand(cardsUsed)
+//            }
             // ADDED TUES
             if !self.allInMode {
                 gameController.beginBetRound()
@@ -957,6 +961,9 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        while gameController.gameSummary.count > 100 {
+            gameController.gameSummary.removeAtIndex(0)
+        }
         return gameController.gameSummary.count
     }
     

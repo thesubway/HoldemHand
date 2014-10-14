@@ -11,6 +11,7 @@ import GameKit
 class ViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDelegate, UINavigationControllerDelegate {
 
     var matchRequestVC : GKTurnBasedMatchmakerViewController?
+    var currentMatch : GKTurnBasedMatch?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,12 +109,15 @@ class ViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDeleg
     
     // A turned-based match has been found, the game should start
     func turnBasedMatchmakerViewController(viewController: GKTurnBasedMatchmakerViewController!, didFindMatch match: GKTurnBasedMatch!) {
+        self.currentMatch = match
         self.dismissViewControllerAnimated(true, completion: nil)
         //now pass reference of match onto game view controller.
-
+//        var participant0: AnyObject = match.participants[0]
+        var participant0 = match.participants.count
+        println(participant0)
         var holdemView = self.storyboard!.instantiateViewControllerWithIdentifier("holdemView") as HoldemViewController
         
-        holdemView.match = match
+        holdemView.match = self.currentMatch
         if self.navigationController != nil {
             self.navigationController!.pushViewController(holdemView, animated: true)
         }

@@ -165,6 +165,7 @@ class GameController {
         }
         //in case those set players are not live:
         self.currentPlayer = firstPlayerToAct
+        self.sendTurn()
         //place blinds, and notify the receiveBet that this is the case:
         if self.isPreFlop == true {
             self.placingBlinds = true
@@ -174,6 +175,20 @@ class GameController {
         }
 
         //once bet round ends, set isPreFlop = false, regardless of round.
+    }
+    func sendTurn() {
+        if let currentMatch = self.match {
+            var participant0 = currentMatch.participants[0] as GKTurnBasedParticipant
+            println(participant0.lastTurnDate)
+            var nextParticipant: GKTurnBasedParticipant = currentMatch.participants[self.currentPlayer] as GKTurnBasedParticipant
+            var participants = [GKTurnBasedParticipant]()
+            participants.append(nextParticipant)
+            currentMatch.endTurnWithNextParticipants(participants, turnTimeout: 72000, matchData: nil, completionHandler: { (NSError error) -> Void in
+                if ((error) != nil) {
+                    println(error)
+                }
+            })
+        }
     }
     func placeBetForPlayer(amount: Int, player: Player) {
         
@@ -272,6 +287,8 @@ class GameController {
                 self.currentPlayer = (self.currentPlayer + 1) % self.players.count
             }
             while (self.players[currentPlayer].isLive == false)
+            self.sendTurn()
+//            self.match?.currentParticipant
             //if duplicate, it will increment 2 players. Don't want that.
             if let isComputer = self.players[currentPlayer].isComputer {
                 if isComputer {
