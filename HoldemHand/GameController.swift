@@ -178,9 +178,9 @@ class GameController {
     }
     func sendTurn() {
         if let currentMatch = self.match {
-            var participant0 = currentMatch.participants[0] as GKTurnBasedParticipant
+            var participant0 = currentMatch.participants[0] as! GKTurnBasedParticipant
             println(participant0.lastTurnDate)
-            var nextParticipant: GKTurnBasedParticipant = currentMatch.participants[self.currentPlayer] as GKTurnBasedParticipant
+            var nextParticipant: GKTurnBasedParticipant = currentMatch.participants[self.currentPlayer] as! GKTurnBasedParticipant
             var participants = [GKTurnBasedParticipant]()
             participants.append(nextParticipant)
             currentMatch.endTurnWithNextParticipants(participants, turnTimeout: 72000, matchData: nil, completionHandler: { (NSError error) -> Void in

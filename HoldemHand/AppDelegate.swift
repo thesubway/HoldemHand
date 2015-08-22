@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GameCenterManagerDelegate
     let presentAuthenticationViewController = "present_authentication_view_controller"
     let kAuthenticationViewControllerFinished = "authentication_view_controller_finished"
 
-    func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         GameCenterManager.sharedManager().delegate = self
         GameCenterManager.sharedManager().setupManager()

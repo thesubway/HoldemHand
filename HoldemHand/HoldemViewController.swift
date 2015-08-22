@@ -286,7 +286,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
         self.betAlertController.addAction(okAction)
     }
     func betAlertFinish() {
-        var textField = self.betAlertController.textFields?.first as UITextField
+        var textField = self.betAlertController.textFields?.first as! UITextField
         if textField.text.isEmpty {
             self.hideButtons(false)
         }
@@ -477,7 +477,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     }
     
     func faceDown() -> UIImage {
-        return faceDownImage
+        return faceDownImage!
     }
     func dealFlop() {
         handStage = 1
@@ -968,7 +968,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("summaryCell") as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("summaryCell") as! UITableViewCell
         cell.textLabel!.font = UIFont(name: cell.textLabel!.font.fontName, size: 10)
         cell.textLabel!.text = gameController.gameSummary[indexPath.row]
         
@@ -983,7 +983,7 @@ class HoldemViewController: UIViewController, GameControllerDelegate,UITextField
     
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell", forIndexPath: indexPath) as CardCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell", forIndexPath: indexPath) as! CardCell
 //        NSIndexPath* ipath = [NSIndexPath indexPathForRow: cells_count-1 inSection: sections_count-1];
 //        [tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: YES];
         cell.imageView1.layer.borderWidth = 1
